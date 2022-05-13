@@ -1,0 +1,34 @@
+OSReport = 0x801A25D0
+strcmp = 0x8001329c
+
+settings = 0x80004004
+
+inputdata = 0x809bd70c
+racedata = 0x809bd728
+raceinfo = 0x809bd730
+menudata = 0x809c1e38
+player = 0x809c18f8
+musichandler = 0x809c27f8
+playermodel = 0x809c2f38
+itemholder = 0x809c3618
+itemBehaviourTable = 0x809c36a0
+itemObjProperties = 0x809c2f48
+CopyItemOBJPropertiesFromRelToTable = 0x80790e7c
+
+rknetcontroller = 0x809c20d8
+PlayBRSARSound = 0x80716608
+ChangeMusic = 0x80711ac4
+LoadFromU8 = 0x805411fc
+
+ScreenCtr_loadCtr = 0x805c2c60
+
+__mi__5TimerFP5Timer = 0x807ee860
+__dt__5TimerFv = 0x8051c334
+
+DVDOpen = 0x8015e2bc
+DVDReadPrio = 0x8015e834
+DVDClose = 0x8015e568
+
+OSFatal = 0x801a4ec4
+
+memcpy = 0x80005f34
