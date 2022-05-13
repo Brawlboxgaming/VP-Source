@@ -5,6 +5,10 @@
 #define CHECK_BUTTON(universal, specific) \
     case universal: return (buttonPressed & specific) != 0;
 
+RaceLoadHook *RaceLoadHook::sHooks = NULL;
+RaceFrameHook *RaceFrameHook::sHooks = NULL;
+s16 invincibilityTimer[12];
+
 bool CheckButtonPressed(u8 playerHudId, UniversalButtons button){
     u32 controllerInfo = menudata->sub.controllerInfos[0].controllerSlotAndTypeActive;  
     RealControllerHolder *realControllerHolder = &inputdata->realControllerHolders[((controllerInfo & 0xFF00) >> 8)-1];
@@ -130,6 +134,8 @@ u32 GetCustomItemSlot(UnkType *archive, u8 src, char *fileName, UnkType *r6){
 kmCall(0x807bb128, &GetCustomItemSlot);
 kmCall(0x807bb030, &GetCustomItemSlot);
 kmCall(0x807bb200, &GetCustomItemSlot);
+kmCall(0x807bbb58, &GetCustomItemSlot);
+
 
 void ChangeItemBehaviour(){
     ItemBehaviour *table = itemBehaviourTable;
@@ -142,6 +148,12 @@ void ChangeItemBehaviour(){
         table[MUSHROOM].objectId = OBJ_BOBOMB;
         table[MUSHROOM].useType = ITEMUSE_FIRE;
         table[BULLET_BILL].objectId = OBJ_BOBOMB;
+        table[BULLET_BILL].useType = ITEMUSE_CIRCLE;
+        table[BULLET_BILL].numberOfItems = 0x3;
+    }
+
+    if (settings.mode == BSS){
+        table[BULLET_BILL].objectId = OBJ_BLUE_SHELL;
         table[BULLET_BILL].useType = ITEMUSE_CIRCLE;
         table[BULLET_BILL].numberOfItems = 0x3;
     }
@@ -190,3 +202,44 @@ kmWrite32(0x80549974, 0x38600001);
 // Motion Sensor Bombs
 kmWrite16(0x807A5BF6, 0x0FFF);
 kmWrite16(0x807A4ACA, 0x0FFF);
+
+void UpdateTimers(){
+    for (int i=0; i<12; i++){
+        if (invincibilityTimer[i] > 0){
+            invincibilityTimer[i]--;
+        }
+    }
+}
+
+static RaceFrameHook updateTimerHook(UpdateTimers);
+
+void ResetTimers(){
+    for (int i=0; i<12; i++){
+            invincibilityTimer[i] = 0;
+        }
+}
+
+static RaceLoadHook resetTimerHook(ResetTimers);
+
+void InvincibilityFrames(PlayerSub14 *playersub14, DamageType newDamage, UnkType r5, int r6, u32 r7){ // For Chaotic add random item damage
+    if (racedata->main.scenarios[0].settings.gamemode != MODE_BATTLE){
+        u8 playerId = playersub14->playerPointers->params->playerIdx;
+        if (invincibilityTimer[playerId] > 0){
+            return;
+        }
+        invincibilityTimer[playerId] = 150;
+    }
+    playersub14->Update(newDamage, r5, r6, r7);
+}
+
+kmCall(0x805721a4, &InvincibilityFrames);
+kmCall(0x805727b4, &InvincibilityFrames);
+
+kmBranch(0x805320d0, RaceLoadHook::exec);
+kmBranch(0x8053369c, RaceFrameHook::exec);
+
+UnkType AllVehiclesInBattle(){
+    return 0;
+}
+
+//kmBranch(0x80860A8C, &AllVehiclesInBattle);

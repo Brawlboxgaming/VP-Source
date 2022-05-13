@@ -24,3 +24,45 @@ extern "C"{
     void ScreenCtr_loadCtr(UnkType *r3, char *folderName, char *ctrName, char *locName, char **animNames);
     void CopyItemOBJPropertiesFromRelToTable(int *itemTable, ItemOBJProperties *itemObjProperties);
 }
+
+class RaceLoadHook {
+private:
+    typedef void (Func)();
+    Func *mFunc;
+    RaceLoadHook * mNext;
+
+    static RaceLoadHook * sHooks;
+
+public:
+    RaceLoadHook(Func * f) {
+        mNext = sHooks;
+        sHooks = this;
+        mFunc = f;
+    }
+
+    static void exec() {
+        for (RaceLoadHook * p = sHooks; p; p = p->mNext)
+            p->mFunc();
+    }
+};
+
+class RaceFrameHook {
+private:
+    typedef void (Func)();
+    Func *mFunc;
+    RaceFrameHook * mNext;
+
+    static RaceFrameHook * sHooks;
+
+public:
+    RaceFrameHook(Func * f) {
+        mNext = sHooks;
+        sHooks = this;
+        mFunc = f;
+    }
+
+    static void exec() {
+        for (RaceFrameHook * p = sHooks; p; p = p->mNext)
+            p->mFunc();
+    }
+};

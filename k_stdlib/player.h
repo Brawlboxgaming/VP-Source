@@ -390,7 +390,9 @@ public:
   PlayerSub14(); // 805672cc
   PlayerPointers *playerPointers;
   u8 unknown_0x4[0xc-0x4];
-  virtual void unknown_vtable();
+  virtual void func_vtable1();
+  virtual void Update(DamageType newDamage, UnkType r5, int r6, u32 r7);
+  virtual void unknown_vtable(); // 0x808B5008
   float unknown_0x10[3];
   DamageType currentDamage;
   u8 unknown_0x20[0x100-0x20];
@@ -969,4 +971,4 @@ public:
   u8 unknown_0x34[0x38-0x34];
 }; // Total size 0x38
 
-extern PlayerHolder *player;
+extern PlayerHolder *playerHolder;

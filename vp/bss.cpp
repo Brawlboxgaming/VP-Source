@@ -24,11 +24,11 @@ bool BlueShellSwapping(bool hasItem){
                         u8 mushroomCount = 3;
                         u8 playerCount = itemholder->playerCount;
                         u8 position = raceinfo->players[playerId]->position;
-                        float third = (float)(position/playerCount);
-                        if (third <= 1/3){
+                        float third = (float)position/(float)playerCount;
+                        if (third <= 1.0f/3.0f){
                             mushroomCount = 1;
                         }
-                        else if (third <= 2/3){
+                        else if (third <= 2.0f/3.0f){
                             mushroomCount = 2;
                         }
 

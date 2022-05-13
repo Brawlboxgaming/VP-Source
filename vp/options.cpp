@@ -22,7 +22,7 @@ kmWrite32(0x807eb160, 0x88de01b4);
 
 void musicSpeedup(int r3, u32 jingle, u32 r5){
     RaceinfoPlayer *localPlayer = raceinfo->players[(&racedata->main)->scenarios[0].settings.hudPlayerIds[0]];
-    PlayerSound *playerSound = *(&player->players[localPlayer->id]->pointers.playerSound);
+    PlayerSound *playerSound = *(&playerHolder->players[localPlayer->id]->pointers.playerSound);
 	u8 maxLap = localPlayer->maxLap;
     if (maxLap == (&racedata->main)->scenarios[0].settings.lapCount && (&racedata->main)->scenarios[0].settings.lapCount != 1){
         if (settings.finalLapSpeedup){
