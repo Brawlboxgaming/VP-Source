@@ -240,4 +240,16 @@ UnkType AllVehiclesInBattle(){
     return 0;
 }
 
-//kmBranch(0x80860A8C, &AllVehiclesInBattle);
+kmBranch(0x80860A8C, &AllVehiclesInBattle);
+kmWrite32(0x8084FEE8, 0x38000000);
+kmWrite32(0x80553FAC, 0x38A00000);
+
+UnkType *ItemBoxOverFIBModel(int *r3, UnkType U8Source, char *fileName){
+    if (strcmp(fileName, "itemBoxNiseRtpa.brres") == 0){
+        fileName = "itembox.brres";
+        U8Source = 0x1;
+    }
+    ResFile_LoadFromU8(r3, U8Source, fileName);
+}
+
+kmCall(0x807a0160, &ItemBoxOverFIBModel);

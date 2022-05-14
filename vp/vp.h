@@ -23,6 +23,7 @@ extern "C"{
     u32 LoadFromU8(UnkType *archive, u8 src, char *fileName, UnkType *r6);
     void ScreenCtr_loadCtr(UnkType *r3, char *folderName, char *ctrName, char *locName, char **animNames);
     void CopyItemOBJPropertiesFromRelToTable(int *itemTable, ItemOBJProperties *itemObjProperties);
+    void ResFile_LoadFromU8(int *r3, UnkType U8Source, char *fileName);
 }
 
 class RaceLoadHook {
