@@ -174,8 +174,6 @@ void ChangeItemOBJProperties(int *billTable, ItemOBJProperties *billProperties){
     if(settings.mode == BBB){
         table[OBJ_BOBOMB].limit = 0x14;
     }
-
-    OSReport("%x", sizeof(ItemOBJProperties));
 }
 
 kmCall(0x80790c04, &ChangeItemOBJProperties);
