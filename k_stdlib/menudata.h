@@ -5,7 +5,7 @@ MenuData is the class that holds the information about the current displayed Men
 #pragma once
 #include <common.h>
 #include <kamek.h>
-#include <inputdata.h>
+#include <screen.h>
 
 typedef enum ControllerType{
     WHEEL=0x11,
@@ -204,11 +204,12 @@ struct ControllerInfo{
     ControllerHolder * controllerHolder; // see inputdata.h
 }; // datasize 0x10
 
+
 struct Scene {
 public:
     MenuType menuId;
     u32 openingAnimIdx;
-    void *screens[0xD2]; //https://wiki.tockdom.com/wiki/List_of_Identifiers#Screen_Identifiers
+    Screen *screens[0xD2]; //https://wiki.tockdom.com/wiki/List_of_Identifiers#Screen_Identifiers
     void *activeScreens[11];
     u32 layerCount;
     void *controllerDisconnectedScreen;

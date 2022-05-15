@@ -1,4 +1,22 @@
-#include <vp.h>
+#include <kamek.h>
+#include <racedata.h>
+#include <raceinfo.h>
+#include <menudata.h>
+#include <settings.h>
+#include <player.h>
+#include <rknetcontroller.h>
+#include <musichandler.h>
+
+extern Racedata *racedata;
+extern Raceinfo *raceinfo;
+extern Settings settings;
+extern Rknetcontroller *rknetcontroller;
+extern PlayerHolder *player;
+extern MusicHandler *musichandler;
+extern "C" {
+int PlayBRSARSound(int r3, u32 soundId, u32 r5);
+void ChangeMusic(MusicHandler *musichandler, RaceState raceState);
+}
 
 int miiheads(Racedata *racedata, int r4, int r5, u8 id){
     u32 charId = (&racedata->main)->scenarios[0].players[id].characterId;
@@ -24,7 +42,7 @@ void musicSpeedup(int r3, u32 jingle, u32 r5){
     RaceinfoPlayer *localPlayer = raceinfo->players[(&racedata->main)->scenarios[0].settings.hudPlayerIds[0]];
     PlayerSound *playerSound = *(&player->players[localPlayer->id]->pointers.playerSound);
 	u8 maxLap = localPlayer->maxLap;
-    if (maxLap == (&racedata->main)->scenarios[0].settings.lapCount && (&racedata->main)->scenarios[0].settings.lapCount != 1){
+    if (maxLap == (&racedata->main)->scenarios[0].settings.lapCount){
         if (settings.finalLapSpeedup){
             Timer *raceTimer = &raceinfo->timerManager->timers[0];
             Timer *playerTimer = &localPlayer->lapFinishTimes[maxLap-2];
