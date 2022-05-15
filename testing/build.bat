@@ -9,13 +9,13 @@ mkdir build\tileset
 
 :: CPP compilation settings
 SET CC="../cw/mwcceppc.exe"
-SET CFLAGS=-I- -i ../k_stdlib -i ../vp -Cpp_exceptions off -enum int -O4,s -use_lmw_stmw on -fp hard -rostr -sdata 0 -sdata2 0 -maxerrors 1
+SET CFLAGS=-I- -i ../k_stdlib -i ../testing -Cpp_exceptions off -enum int -O4,s -use_lmw_stmw on -fp hard -rostr -sdata 0 -sdata2 0 -maxerrors 1
 SET CPPFILES=
 for %%f in (*.cpp) do SET "CPPFILES=%%~nf !CPPFILES!"
 
 
 :: Destination (change as necessary)
-SET "DEST=../vp"
+SET "DEST=../testing"
 SET "RIIVO=D:\Documents\Dolphin Emulator\Load\Kamek"
 echo %RIIVO%
 

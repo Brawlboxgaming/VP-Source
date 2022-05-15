@@ -14,7 +14,8 @@
 #include <playermodel.h>
 #include <itembehaviour.h>
 #include <itemobjproperties.h>
-#include <screen.h>
+
+
 
 bool CheckButtonPressed(u8 playerHudId, UniversalButtons button);
 extern "C"{
@@ -22,6 +23,6 @@ extern "C"{
     int PlayBRSARSound(int r3, u32 soundId, u32 r5);
     void ChangeMusic(MusicHandler *musichandler, RaceState raceState);
     u32 LoadFromU8(UnkType *archive, u8 src, char *fileName, UnkType *r6);
-    void LoadCtr(UnkType *r3, char *folderName, char *ctrName, char *locName, char **animNames);
     void CopyItemOBJPropertiesFromRelToTable(int *itemTable, ItemOBJProperties *itemObjProperties);
 }
+

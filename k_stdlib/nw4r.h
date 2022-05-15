@@ -16,16 +16,16 @@ namespace nw4r {
 				struct { u8 r,g,b,a; };
 				u32 rgba;
 			};
-		}; // Total size 0x4
+		};
 
 
 		struct Link {
 			void *prev, *next;
-		}; // Total size 0x8
+		};
 		struct List {
 			Link *head, *tail;
 			u16 count, offset;
-		}; // Total size 0xc
+		};
 
 		void List_Init(List *list, u16 offset);
 		void List_Append(List *list, void *newObj);
@@ -38,13 +38,13 @@ namespace nw4r {
 		public:
 			LinkListNode *next;
 			LinkListNode *prev;
-		}; // Total size 0x8
+		};
 
 		class LinkList {
 		public:
 			int count;
 			LinkListNode initialNode;
-		}; // Total size 0xc
+		};
 
 		// TODO: Character/text/font utility classes
 		template <class T>
@@ -102,14 +102,14 @@ namespace nw4r {
 			f32 constant;
 
 			void Set(const VEC3 *a, const VEC3 *b, const VEC3 *c);
-		}; // Total size 0x10
+		};
 
 		struct AABB {
 			VEC3 minPoint, maxPoint;
 
 			void Set(const VEC3 *pointArray, u32 pointCount);
 			void Set(const AABB *otherAABB, const MTX34 *matrix);
-		}; // Total size 0x18
+		};
 
 		struct FRUSTUM {
 			MTX34 matrix;
@@ -121,7 +121,7 @@ namespace nw4r {
 			void Set(f32 fovy, f32 aspect, f32 near, f32 far, const MTX34 &matrix);
 			void Set(f32 top, f32 bottom, f32 left, f32 right, f32 near, f32 far, const MTX34 &matrix);
 			int IntersectAABB_Ex(const AABB *otherAabb);
-		}; // Total size 0xf0
+		};
 
 		struct SEGMENT3 { VEC3 a, b; };
 		struct LINE3 { VEC3 point, direction; };
@@ -156,12 +156,12 @@ namespace nw4r {
 
 				u8 reservedSize, usedSize;
 				void *data;
-			};  // Total size 0x8
+			};
 		}
 
 		class Layout {
 		public:
-			Layout();
+			Layout(); //0x802734c0
 			virtual ~Layout();
 
 			virtual bool Build(const void *data, ResourceAccessor *resAcc);
@@ -173,7 +173,7 @@ namespace nw4r {
 			virtual void BindAnimation(AnimTransform *anim);
 			virtual void UnbindAnimation(AnimTransform *anim);
 			virtual void UnbindAllAnimation();
-			//virtual bool BindAnimationAuto(const AnimResource &res, ResourceAccessor *resAcc);
+			virtual bool BindAnimationAuto(const AnimResource &res, ResourceAccessor *resAcc);
 
 			virtual void SetAnimationEnable(AnimTransform *anim, bool unk);
 
@@ -191,7 +191,7 @@ namespace nw4r {
 
 			float width;
 			float height;
-		}; // Total size 0x20
+		};// Total Size 0x20
 
 
 		class DrawInfo {
@@ -208,7 +208,7 @@ namespace nw4r {
 			float scaleY;
 			float alpha;
 			u8 _50; // this is actually a bitfield. todo: investigate how CW handles bitfields, and so on
-		}; // Total size 0x50
+		};
 
 
 		class TexMap {
@@ -225,7 +225,7 @@ namespace nw4r {
 				}
 
 				void ReplaceImage(UnkType *tpl, unsigned long id);
-		}; // Total size 0x1c
+		};
 
 		class Material {
 		public:
@@ -235,7 +235,7 @@ namespace nw4r {
 			u8 _[0x3C];
 			// this is actually a pointer to more stuff, not just texmaps
 			TexMap *texMaps;
-		}; // 0x44
+		};
 
 		class Pane {
 		public:
@@ -324,7 +324,7 @@ namespace nw4r {
 				else
 					flag &= ~1;
 			}
-		}; // Total size 0xcc
+		};
 
 		class TextBox : public Pane {
 		public:
@@ -363,7 +363,7 @@ namespace nw4r {
 
 			u8 alignment;
 			u8 flags;
-		}; // Total size 0xf0
+		};
 
 		class Picture : public Pane {
 		public:
@@ -383,7 +383,7 @@ namespace nw4r {
 
 			UnkType colours[4];
 			detail::TexCoordAry texCoords;
-		}; // Total size 0xe4
+		};
 	}
 
 }

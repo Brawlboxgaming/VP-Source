@@ -1,13 +1,10 @@
 #include <vp.h>
+#include <ScreenElement.h>
 
 // 0x807bb200 is the address for itemslot.bin loading
 
 #define CHECK_BUTTON(universal, specific) \
     case universal: return (buttonPressed & specific) != 0;
-
-RaceLoadHook *RaceLoadHook::sHooks = NULL;
-RaceFrameHook *RaceFrameHook::sHooks = NULL;
-s16 invincibilityTimer[12];
 
 bool CheckButtonPressed(u8 playerHudId, UniversalButtons button){
     u32 controllerInfo = menudata->sub.controllerInfos[0].controllerSlotAndTypeActive;  
@@ -105,14 +102,15 @@ bool CheckButtonPressed(u8 playerHudId, UniversalButtons button){
     }
 }
 
-void GetCustomItemWindow(UnkType *r3, char *folderName, char *ctrName, char *locName, char **animNames){
+void GetCustomItemWindow(ScreenController *screenctr , char *folderName, char *ctrName, char *locName, char **animNames){
     if (settings.mode == BSS){
         ctrName = "item_window_new_bss";
     }
     else if (settings.mode == BBB){
         ctrName = "item_window_new_bbb";
     }
-    ScreenCtr_loadCtr(r3, folderName, ctrName, locName, animNames);
+    screenctr->LoadCtr(folderName, ctrName, locName, animNames);
+    return;
 }
 
 kmCall(0x807ef50c, &GetCustomItemWindow);
@@ -134,8 +132,6 @@ u32 GetCustomItemSlot(UnkType *archive, u8 src, char *fileName, UnkType *r6){
 kmCall(0x807bb128, &GetCustomItemSlot);
 kmCall(0x807bb030, &GetCustomItemSlot);
 kmCall(0x807bb200, &GetCustomItemSlot);
-kmCall(0x807bbb58, &GetCustomItemSlot);
-
 
 void ChangeItemBehaviour(){
     ItemBehaviour *table = itemBehaviourTable;
@@ -152,11 +148,7 @@ void ChangeItemBehaviour(){
         table[BULLET_BILL].numberOfItems = 0x3;
     }
 
-    if (settings.mode == BSS){
-        table[BULLET_BILL].objectId = OBJ_BLUE_SHELL;
-        table[BULLET_BILL].useType = ITEMUSE_CIRCLE;
-        table[BULLET_BILL].numberOfItems = 0x3;
-    }
+    return;
 }
 
 kmBranch(0x807bd1cc, &ChangeItemBehaviour);
@@ -174,82 +166,10 @@ void ChangeItemOBJProperties(int *billTable, ItemOBJProperties *billProperties){
     if(settings.mode == BBB){
         table[OBJ_BOBOMB].limit = 0x14;
     }
+
+    OSReport("%x", sizeof(ItemOBJProperties));
+
+    return;
 }
 
 kmCall(0x80790c04, &ChangeItemOBJProperties);
-
-// Don't Hide Position After Race
-kmWrite32(0x807F4DB8, 0x38000001);
-
-// Show Everyone's Times After Race
-kmWrite32(0x8085C914, 0x38000000);
-kmWrite32(0x8085D460, 0x4BF984FD);
-
-// Blue Shell Speed Modifier
-kmWrite32(0x808A5BC4, 0x44820000);
-
-// Don't Lose VR When Disconnecting
-kmWrite32(0x80856560, 0x60000000);
-
-// Coloured Minimap
-kmWrite32(0x807DFC24, 0x60000000);
-
-// Unlock Code
-kmWrite32(0x80549974, 0x38600001);
-
-// Motion Sensor Bombs
-kmWrite16(0x807A5BF6, 0x0FFF);
-kmWrite16(0x807A4ACA, 0x0FFF);
-
-void UpdateTimers(){
-    for (int i=0; i<12; i++){
-        if (invincibilityTimer[i] > 0){
-            invincibilityTimer[i]--;
-        }
-    }
-}
-
-static RaceFrameHook updateTimerHook(UpdateTimers);
-
-void ResetTimers(){
-    for (int i=0; i<12; i++){
-            invincibilityTimer[i] = 0;
-        }
-}
-
-static RaceLoadHook resetTimerHook(ResetTimers);
-
-void InvincibilityFrames(PlayerSub14 *playersub14, DamageType newDamage, UnkType r5, int r6, u32 r7){ // For Chaotic add random item damage
-    if (racedata->main.scenarios[0].settings.gamemode != MODE_BATTLE){
-        u8 playerId = playersub14->playerPointers->params->playerIdx;
-        if (invincibilityTimer[playerId] > 0){
-            return;
-        }
-        invincibilityTimer[playerId] = 150;
-    }
-    playersub14->Update(newDamage, r5, r6, r7);
-}
-
-kmCall(0x805721a4, &InvincibilityFrames);
-kmCall(0x805727b4, &InvincibilityFrames);
-
-kmBranch(0x805320d0, RaceLoadHook::exec);
-kmBranch(0x8053369c, RaceFrameHook::exec);
-
-UnkType AllVehiclesInBattle(){
-    return 0;
-}
-
-kmBranch(0x80860A8C, &AllVehiclesInBattle);
-kmWrite32(0x8084FEE8, 0x38000000);
-kmWrite32(0x80553FAC, 0x38A00000);
-
-UnkType *ItemBoxOverFIBModel(int *r3, UnkType U8Source, char *fileName){
-    if (strcmp(fileName, "itemBoxNiseRtpa.brres") == 0){
-        fileName = "itembox.brres";
-        U8Source = 0x1;
-    }
-    ResFile_LoadFromU8(r3, U8Source, fileName);
-}
-
-kmCall(0x807a0160, &ItemBoxOverFIBModel);
