@@ -30,6 +30,5 @@ typedef struct ItemBehaviour {
   void * useFunction; // Item is draggable if this is null
 }; // Total size 0x1c
 
-extern ItemBehaviour itemBehaviourTable[19]; // 809c36a0, index item id, see http://wiki.tockdom.com/wiki/List_of_Identifiers#Items
-
 void CopyItemBehaviourFromRelToTable(); // 807bcae0, copies individual structs from rodata into table
+extern ItemBehaviour itemBehaviourTable[19]; // 809c36a0, index item id, see http://wiki.tockdom.com/wiki/List_of_Identifiers#Items

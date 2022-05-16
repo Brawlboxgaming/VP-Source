@@ -1,6 +1,5 @@
 #pragma once
 #include <egg.h>
-#include <common.h>
 #include <racedata.h>
 #include <kamek.h>
 

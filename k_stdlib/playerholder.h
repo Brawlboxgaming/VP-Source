@@ -62,7 +62,6 @@ public:
   bool activate(u32 type, s16 frames); // 80588db0
   void cancelAll(); // 80588e18
   bool update(bool *unk0); // 80588e24
-
   // vtable 808b5fd8
   virtual ~PlayerBoost(); // 8057811c
   s16 frames[6];
@@ -118,7 +117,6 @@ public:
   void tryStart(Vec3 *left); // 80575d7c
   void update(); // 805763e4
   void end(); // 805766b8
-
   PlayerPointers *pointers;
   u8 unknown_0x4[0xc-0x4];
   // vtable 808b58b0
@@ -153,7 +151,6 @@ public:
   virtual void start(Vec3 *left); // 80576758
   virtual void startInner(TrickCategory category); // 8057689c
   virtual void updateRot(); // 80576994
-
   // vtable 808b5890
 }; // total size 0x50
 
@@ -162,7 +159,6 @@ public:
   PlayerZipper(); // 80574114
   void update(); // 80574340
   void end(int unk0); // 805758e4
-
   PlayerPointers *pointers;
   u8 unknown_0x4[0xc-0x4];
   // vtable 808b5798
@@ -207,7 +203,6 @@ public:
   UnkType updateDiving(); // 805869dc
   UnkType updateSlipstream(); // 80586fa8
   UnkType updateSpecialFloor(); // 80587590, always inlined
-
   PlayerPointers *playerPointers;
   int *unknown_0x4;
   int *unknown_0x8;
@@ -348,7 +343,6 @@ public:
 class PlayerSub10Bike : public PlayerSub10 {
 public:
   PlayerSub10Bike(); // 80587b30
-
   // vtable 808b5ee8
   virtual ~PlayerSub10Bike(); // 80589704
   virtual int setTurnParams(); // 80587c54
@@ -417,7 +411,6 @@ public:
   UnkType activeOob(int unk0, int unk1, int unk2, int unk3); // 80573b00
   UnkType updateRespawn(); // 80573ed4
   UnkType updateCollisionsInner(float unk0, float unk1, u32 playerIdx, PlayerPhysics *playerPhysics, UnkType *collisionGroup, Quat *rotation, Vec3 *scale, bool enableHwg, Vec3 *unk2); // 805b6724
-
   // vtable 808b56a8
   virtual void processVehicleBodyCollision(CollisionData *collisionData, Hitbox *hitbox, void *unk, UnkType *kclFlags); // 8056e764
   virtual void processWheelCollision(CollisionData *collisionData, Hitbox *hitbox, void *unk, UnkType *kclFlags); // 8056e8d4
@@ -446,7 +439,6 @@ public:
   UnkType computeStartBoost(); // 805959d4
   UnkType applyStartBoost(int startBoostIdx); // 80595af8
   UnkType updateCollisions(); // 80594bd4
-
   // vtable 808b6534
   virtual void unknown_vtable();
   u32 bitfield0; // bit flags:
@@ -549,7 +541,6 @@ public:
 class PlayerSub {
 public:
   PlayerSub(PlayerParams *playerParams); // 80595d48
-
   PlayerPointers *playerPointers;
   int *unknown_0x4;
   int *unknown_0x8;
@@ -565,7 +556,6 @@ public:
 class PlayerPhysics {
 private:
   PlayerPhysics(); // 805b4b54
-
 public:
   //PlayerPhysics(); // 805b4af8
   UnkType initInertia0(); // 805b4dc4
@@ -573,7 +563,6 @@ public:
   UnkType reset(); // 805b4d24
   UnkType update(float one, float maxSpeed, bool unknown); // 805b5170
   UnkType applyWheelSuspension(Vec3 *unk0, Vec3 *normalAcceleration, Vec3 *unk1, bool unk2); // 805b6150
-
   // vtable 808b7314
   virtual ~PlayerPhysics(); // 8059f678
   virtual UnkType stabilize(); // 805b5b68
@@ -611,14 +600,12 @@ class PlayerPhysicsBike : public PlayerPhysics {
 public:
   virtual ~PlayerPhysicsBike(); // 805b66e4
   virtual UnkType stabilize(); // 805b6448
-
   // vtable 808b7300
 }; // Total size 0x1b4
 
 class CollisionData {
 public:
   CollisionData(); // 805b821c
-
   u32 types; // bit flags:
     /*
       0 floor
@@ -649,7 +636,6 @@ public:
   Hitbox(); // 805b7f48
   UnkType reset(); // 808b7f84
   UnkType update(float scale0, float scale1, Vec3 *scale, Quat *rotation, Vec3 *centerPosition); // 805b7fbc
-
   void *bspHitbox; // http://wiki.tockdom.com/wiki/BSP_(File_Format)
   float radius;
   s32 unknown_0x8;
@@ -665,7 +651,6 @@ public:
   HitboxGroup(float radius, Vec3 *position); // 805b875c
   UnkType updateBoundingRadius(); // 805b883c
   UnkType reset(); // 805b8330
-
   u16 hitboxCount;
   // padding 0x2 - 0x3
   float boundingRadius;
@@ -681,7 +666,6 @@ public:
   PlayerPhysicsHolder(bool isBike, StatsAndBsp *statsAndBsp, void *arg_r5, u32 wheelCount); // 805a04a0
   UnkType init(bool isBike); // 8059f5bc
   UnkType resetQuaternions(); // 805a0410
-
   // vtable 808b69e8
   virtual void unknown_vtable();
   PlayerPhysics *playerPhysics;
@@ -702,7 +686,6 @@ public:
   u8 unknown_0x0[0xc-0x0];
   // vtable 808b6450
   virtual void unknown_vtable();
-
   Vec3 unknown_0x10;
   Mat34 unknown_0x1c;
   Mat34 unknown_0x4c;
@@ -752,7 +735,6 @@ public:
   PlayerParams(u32 playerIdx, VehicleId vehicle, CharacterId character, bool isBike, StatsAndBsp *statsAndBsp,
                void *unknown, UnkType *kartDriverDispParams, UnkType *kartPartsDispParams,
                UnkType *bikePartsDispParams, UnkType *driverDispParams); // 80592fc0
-
   u32 isBike;
   VehicleId vehicle;
   CharacterId character;
@@ -777,7 +759,6 @@ public:
   WheelPhysics(u32 wheelIdx, u32 bspWheelIdx); // 8059940c
   UnkType initHitboxGroup(); // 80599470
   UnkType realign(Vec3 *bottomDirection, Vec3 *unknown); // 80599ad0
-
   PlayerPointers *playerPointers;
   int *unknown_0x4;
   int *unknown_0x8;
@@ -800,7 +781,6 @@ public:
   WheelPhysicsHolder(u32 wheelIdx, bool xMirroredKart, u32 bspWheelIdx); // 80599ed4
   UnkType update(float unknown, Vec3 *gravity, Mat34 *wheelMat); // 8059a278
   UnkType applySuspensions(Vec3 *forwardDirection, Vec3 *unknown); // 8059a574
-
   PlayerPointers *playerPointers;
   u8 unknown_0x4[0xc-0x4];
   // vtable 808b66b0
@@ -819,7 +799,6 @@ class Wheel0 : public Object3D {
 public:
   Wheel0(PlayerParams *playerParams); // 80598b08
   UnkType init(); // 80598bd4
-
   // vtable 808b6640
   u8 unknown_0x8c[0x90-0x8c];
   WheelPhysicsHolder *wheelPhysicsHolder;
@@ -828,7 +807,6 @@ public:
 class Wheel1 : public Object3D {
 public:
   Wheel1(PlayerParams *playerParams, bool xMirroredKart, u32 bspWheelIdx); // 8059aa44
-
   // vtable 808b67e0
   u8 unknown_0x8c[0x90-0x8c];
   u32 xMirroredKart;
@@ -849,7 +827,6 @@ public:
   u8 unknown_0x1[3];
   Vec3 unknown_0x4;
 };// Total Size 0x10
-
 
 class PlayerSound {
 public:
@@ -897,7 +874,6 @@ public:
   bool isCpu(); // 80590664
   UnkType setPlayerPosition(Vec3 *position); // 80590238
   UnkType setPlayerRotation(Quat *rotation); // 80590288
-
   PlayerParams *params;
   PlayerSub1c *playerSub1c;
   PlayerGraphics *playerGraphics;
@@ -925,7 +901,6 @@ public:
   UnkType update(); // 8058eeb4
   UnkType update2(); // 8058eebc
   UnkType initWheels(); // 8058ea0c
-
   PlayerPointers *playerPointers; // a pointer to the inline instance at 0x1c
   int *unknown_0x4;
   int *unknown_0x8;
@@ -940,7 +915,6 @@ public:
 class PlayerBike : public Player {
 public:
   UnkType initWheels(); // 8058f2e8
-
   // vtable 0x808b63d0
 }; // Total size 0x80
 
@@ -956,11 +930,9 @@ public:
   static PlayerHolder * sInstance; // 809c18f8
   static PlayerHolder * getStaticInstance(); // 8058faa8
   static void destroyStaticInstance(); // 8058faf8
-
   PlayerHolder(); // 8058fb2c
   Player *PlayerHolderGetPlayer(u32 idx); // 80590100
   void update(); // 8058ffe8
-
   PlayerHolderSub secondPHS;
   Player **players;
   u8 playerCount;

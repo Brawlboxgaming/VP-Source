@@ -19,9 +19,8 @@ FOR %%H IN (%CPPFILES%) DO (
     echo "Compiling %%H.cpp..."
     %CC% %CFLAGS% -c -o build/%%H.o %%H.cpp
     SET "OBJECTS=build/%%H.o !OBJECTS!"
-    C:/devkitPro/devkitPPC/bin/powerpc-eabi-readelf -s build/%%H.o
 )
-
+::C:/devkitPro/devkitPPC/bin/powerpc-eabi-readelf -s build/%%H.o
 
 :: Link
 echo Linking...

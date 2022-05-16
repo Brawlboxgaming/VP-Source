@@ -75,11 +75,8 @@ namespace EGG {
 	public:
 		MsgRes(const u8 *bmgFile, u32 unusedParam);
 		virtual ~MsgRes();
-
 		static void parseFormatCode(wchar_t initialTag, const wchar_t *string, u8 *outArgsSize, u32 *outCmd, const wchar_t **args);
-
 		const wchar_t *findStringForMessageID(int category, int message) const;
-
 	private:
 		void setBMG(const u8 *ptr);
 		void setINF(const u8 *ptr);

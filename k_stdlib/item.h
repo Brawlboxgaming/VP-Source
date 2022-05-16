@@ -1,12 +1,13 @@
+/* 
+Stebler, CLF (main documentation)
+*/
 #pragma once
 #include <kamek.h>
 #include <egg.h>
-#include <nw4r.h>
 #include <common.h>
-#include <player.h>
+#include <playerholder.h>
 
 class ItemHolderPlayer;
-
 class PlayerModel;
 
 class Item_KouraTogezo { //yoinked that from sanbo, idk where it's used but I'm keeping it
@@ -25,13 +26,11 @@ public:
     u8 unknown_0x2ed[0x338-0x2ed];
 }; // Total size 0x338
 
-
 class ItemObject { //Called ItemControllerSub by Ssanbo seems to be the parent class of item type specific ones
 public:
     virtual int unknown_vtable();
     u8 unknown_0x4[0x174-0x4]; //has a bunch of Vec3s, probably for speed/scale
 };//Total Size 0x174
-
 
 class PlayerRoulette{
 public:
@@ -48,7 +47,6 @@ public:
     u32 itemNum; //how many items have you pulled so far, useful for mushroom bug
 }; //Total Size 0x34
 
-
 class PlayerInventory{
 public:
     ItemHolderPlayer *itemHolderPlayer;
@@ -56,7 +54,6 @@ public:
     u32 currentItemCount;
     u8 unknown_0xC[0x2C-0xC];
 }; //Total Size 0x2C
-
 
 class ItemHolderPlayerSub {
 public:
@@ -104,7 +101,7 @@ public:
     PlayerModel *model2;
     Vec3 unknown_0x24;
     u8 unknown_0x30[0x44-0x30];
-    PlayerItemPoint itemPoint;  //currently in player.h but will end up in KMP.h
+    PlayerItemPoint itemPoint;  //currently in playerholder.h but will end up in KMP.h
     PlayerRoulette roulette;
     PlayerInventory inventory;
     ItemHolderPlayerSub itemHolderPlayerSub;

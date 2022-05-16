@@ -1,32 +1,8 @@
-OSReport = 0x801A25D0
-strcmp = 0x8001329c
-
 settings = 0x80004004
-
-inputdata = 0x809bd70c
-racedata = 0x809bd728
-raceinfo = 0x809bd730
-menudata = 0x809c1e38
-playerHolder = 0x809c18f8
-musichandler = 0x809c27f8
-playermodel = 0x809c2f38
-itemholder = 0x809c3618
-itemBehaviourTable = 0x809c36a0
-itemObjProperties = 0x809c2f48
-CopyItemOBJPropertiesFromRelToTable = 0x80790e7c
-ApplyDamage = 0x805675dc
-
-rknetcontroller = 0x809c20d8
-PlayBRSARSound = 0x80716608
-ChangeMusic = 0x80711ac4
-LoadFromU8 = 0x805411fc
-ResFile_LoadFromU8 = 0x8055b618
-
-ScreenCtr_loadCtr = 0x805c2c60
-
-getPlayerIdx__14PlayerPointersFv = 0x80590a5c
-__mi__5TimerFP5Timer = 0x807ee860
-__dt__5TimerFv = 0x8051c334
+memcpy = 0x80005f34
+snprintf = 0x80011938
+strcmp = 0x8001329c
+__cvt_fp2unsigned = 0x80021478
 _savefpr_14 = 0x800214d4
 _savefpr_15 = 0x800214d8
 _savefpr_16 = 0x800214dc
@@ -63,25 +39,157 @@ _restfpr_28 = 0x80021558
 _restfpr_29 = 0x8002155c
 _restfpr_30 = 0x80021560
 _restfpr_31 = 0x80021564
-
-nw4r::lyt::Layout::__ct = 0x8007a000
-nw4r::lyt::Layout::__dt = 0x8007a040
-nw4r::lyt::Layout::Build = 0x8007a170
-nw4r::lyt::Layout::CreateAnimTransform = 0x8007a540
-nw4r::lyt::Layout::SetTagProcessor = 0x80079d70
-
-nw4r::lyt::Layout::BindAnimation = 0x800793e0
-nw4r::lyt::Layout::UnbindAnimation = 0x80079400
-nw4r::lyt::Layout::UnbindAllAnimation = 0x80079490
-nw4r::lyt::Layout::SetAnimationEnable = 0x80079670
-nw4r::lyt::Layout::CalculateMtx = 0x80078ef0
-nw4r::lyt::Layout::Draw = 0x800791f0
-nw4r::lyt::Layout::Animate = 0x80079290
-
 DVDOpen = 0x8015e2bc
-DVDReadPrio = 0x8015e834
 DVDClose = 0x8015e568
-
+DVDReadPrio = 0x8015e834
+OSReport = 0x801A25D0
 OSFatal = 0x801a4ec4
+__nw__FUl = 0x80229dcc
+__dl__FPv = 0x80229e14
 
-memcpy = 0x80005f34
+
+##Documented Classes
+#ScreenController
+LoadCtr__16ScreenControllerFPcPcPcPPCc = 0x805c2c60
+__ct__16ScreenControllerFP15LayoutUIControl = 0x805c2c18
+__dt__16ScreenControllerFv = 0x805c2c20
+
+#ScreenLayout
+__vt__18ParentScreenLayout = 0x808b950c
+ParentScreenLayout = 0x805E830C
+
+__vt__12ScreenLayout = 0x808b94c4
+ScreenLayout = 0x805e85a8
+dtScreenLayout = 0x805e8630
+
+#BMGThing
+BMGThing = 0x805f8b34
+dtBMGThing = 0x805f8b50
+
+#ControlGroup
+ControlGroup = 0x805C23E4
+dtControlGroup = 0x805c2400
+
+#Screen
+dtScreen = 0x80601a04
+getPage = 0x805bb25c
+getNextScreen = 0x805bb278
+func_0x14 = 0x805bb254
+func_0x18 = 0x805bb24c
+func_0x1C = 0x806024b0
+func_0x20 = 0x80602530
+func_0x24 = 0x806025b0
+Init = 0x80601ad8
+getInstance = 0x805bb248
+func_0x30 = 0x805c9888
+func_0x34 = 0x805bb244
+func_0x38 = 0x805bb240
+func_0x3C = 0x805bb23c
+func_0x40 = 0x805bb238
+func_0x44 = 0x805bb234
+func_0x48 = 0x805bb230
+func_0x4C = 0x805bf2d8
+func_0x50 = 0x805bb22c
+func_0x54 = 0x805bb228
+func_0x58 = 0x805bb224
+func_0x5C = 0x805bb220
+get809cXXXX = 0x805bed68
+InitControlGroup__6ScreenFUi = 0x8060245c
+AddControl__6ScreenFUiP15LayoutUIControlUi = 0x8060246c
+
+#UIControl
+__vt__9UIControl = 0x808bf008                
+UIControl = 0x8063ce6c
+dtUIControl = 0x8063cfa0
+Init = 0x8063d004
+Update = 0x8063d044
+Draw = 0x8063D084
+InitSelf = 0x805BE600
+OnUpdate = 0x805bd2e0
+setPosition__9UIControlFv = 0x8063d194
+func_805BD2DC__9UIControlFv = 0x805BD2DC
+get809cXXXX = 0x80606bdc
+getClassName = 0x8063d3c0
+func_0x30 = 0x8063d608
+func_805bd2d8__9UIControlFv = 0x805bd2d8
+
+#LayoutUIControl
+__vt__15LayoutUIControl = 0x808befb4
+__ct__15LayoutUIControlFv = 0x8063d798
+__dt__15LayoutUIControlFv = 0x8063d8c0
+Init__15LayoutUIControlFv = 0x8063dac0
+Update__15LayoutUIControlFv = 0x8063DB00
+Draw__15LayoutUIControlFv = 0x8063DB84
+get809cXXXX = 0x80606bd0
+getClassName = 0x8063d788
+func_0x30__15LayoutUIControlFv = 0x8063E61c
+func_0x38__15LayoutUIControlFv = 0x8063D954
+
+#CtrlRaceBase
+__vt__12CtrlRaceBase = 0x808d3a98
+__dt__12CtrlRaceBaseFv = 0x807ea8d8
+InitSelf__12CtrlRaceBaseFv = 0x807ec6e8
+get809cXXXX__12CtrlRaceBaseFv = 0x807ec8ec
+getClassName__12CtrlRaceBaseFv = 0x807ebf14
+UpdatePausePosition__12CtrlRaceBaseFv = 0x807ec3e0
+func_0x40__12CtrlRaceBaseFv = 0x807ec20c
+func_0x44__12CtrlRaceBaseFv = 0x807ebe40
+isPaused__12CtrlRaceBaseFv = 0x807ec3b0
+hasRaceStarted__12CtrlRaceBaseFv = 0x807ec3c4
+getPlayerId__12CtrlRaceBaseFv = 0x807ec7f8
+HudSlotColorEnabled__12CtrlRaceBaseFPcb = 0x807ebf20
+
+#RaceScreen
+dtRaceScreen = 0x80624764
+getNextScreen = 0x80633510
+func_0x20 = 0x80858a34
+Init = 0x80856278
+clearInstance = 0x80858a24
+func_0x34 = 0x80858a18
+func_0x48 = 0x80856cec
+func_0x4C = 0x808574b8
+get809cXXXX = 0x80858c10
+InitCtrlRaceBase__10RaceScreenFUi = 0x80857cc0
+getControlCount = 0x80857b08
+
+#AnimationThing
+AnimationThing = 0x8063c3ec
+dtAnimationThing = 0x8063c404
+EffectById__14AnimationThingFUi = 0x8063c820
+DisplayEffect = 0x8063cb20
+
+
+##Rel
+__dt__5TimerFv = 0x8051c334
+LoadFromU8 = 0x805411fc
+ResFile_LoadFromU8 = 0x8055b618
+ApplyDamage = 0x805675dc
+getPlayerIdx__14PlayerPointersFv = 0x80590a5c
+ScreenCtr_loadCtr = 0x805c2c60
+ChangeMusic = 0x80711ac4
+PlayBRSARSound = 0x80716608
+CopyItemOBJPropertiesFromRelToTable = 0x80790e7c
+LoadFIB = 0x807a0040
+__mi__5TimerFP5Timer = 0x807ee860
+
+
+##LE-CODE
+BulletSpeedLoading = 0x808E5B2C
+
+
+#Static Instances
+inputdata = 0x809bd70c
+racedata = 0x809bd728
+raceinfo = 0x809bd730
+playerHolder = 0x809c18f8
+menudata = 0x809c1e38
+rknetcontroller = 0x809c20d8
+musichandler = 0x809c27f8
+playermodel = 0x809c2f38
+itemObjProperties = 0x809c2f48
+itemholder = 0x809c3618
+itemBehaviourTable = 0x809c36a0
+raceScreen = 0x809c4680
+
+
+
