@@ -16,9 +16,12 @@
 #include <itemobjproperties.h>
 #include <screen.h>
 #include <screenelement.h>
+#include <lecode.h>
 
 bool CheckButtonPressed(u8 playerHudId, UniversalButtons button);
-extern int BulletSpeedLoading;
+extern int *GreenShellSpeed;
+extern int *RedShellSpeed;
+extern int *BlueShellSpeed;
 extern "C"{
     void SetMatIcon(UnkType *r3, char *materialName, char *iconPaneName);
     int PlayBRSARSound(int r3, u32 soundId, u32 r5);
@@ -27,7 +30,7 @@ extern "C"{
     void ScreenCtr_loadCtr(UnkType *r3, char *folderName, char *ctrName, char *locName, char **animNames);
     void CopyItemOBJPropertiesFromRelToTable(int *itemTable, ItemOBJProperties *itemObjProperties);
     UnkType *ResFile_LoadFromU8(int *r3, UnkType U8Source, char *fileName);
-    void LoadFIB(int *r3, char *brresString, char *mdl0String, char* shadowString, UnkType r7, char **mdl0Array, UnkType r9, UnkType r10);
+    void UseMegaFunction(Player *player);
 }
 
 class RaceLoadHook {

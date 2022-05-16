@@ -246,8 +246,6 @@ kmWrite32(0x80553FAC, 0x38A00000);
 
 // // VP 200cc
 
-
-
 // Minimum Drift Speed Modifier
 kmWrite32(0x808B5B1C, 0x3EBBBBBC);
 
@@ -262,11 +260,20 @@ kmWrite32(0x808B59F4, 0x43100000);
 // Bullet Bill Speed Modifier
 kmWrite32(0x808B59F8, 0x432E0000);
 
-// Red Shell Speed Modifier
-kmWrite32(0x808A0FD8, 0x42B40000);
-
 // Green Shell Speed Modifier
-kmWrite32(0x808A12E8, 0x42FE6666);
+static PostLECodeHook greenShellSpeedModifier(&GreenShellSpeed, 0x3e6042fc, PostLECodeHook::WRITE32);
+
+// Red Shell Speed Modifier
+static PostLECodeHook redShellSpeedModifier(&RedShellSpeed, 0x3e6042b4, PostLECodeHook::WRITE32);
 
 // Blue Shell Speed Modifier
-kmWrite32(0x808A5BC4, 0x45160000);
+static PostLECodeHook blueShellSpeedModifier(&BlueShellSpeed, 0x3e60431c, PostLECodeHook::WRITE32);
+
+UnkType MegaTC(Player *player, int r4, int r5, int r6){
+
+    UseMegaFunction(player);
+
+    return 0;
+}
+
+kmCall(0x80580630, &MegaTC);

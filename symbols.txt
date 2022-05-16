@@ -171,12 +171,14 @@ ScreenCtr_loadCtr = 0x805c2c60
 ChangeMusic = 0x80711ac4
 PlayBRSARSound = 0x80716608
 CopyItemOBJPropertiesFromRelToTable = 0x80790e7c
-LoadFIB = 0x807a0040
+UseMegaFunction = 0x807a9e50
 __mi__5TimerFP5Timer = 0x807ee860
 
 
 ##LE-CODE
-BulletSpeedLoading = 0x808E5B2C
+GreenShellSpeed = 0x808e5c8c
+RedShellSpeed = 0x808e5c94
+BlueShellSpeed = 0x808e5ca4
 
 
 #Static Instances
