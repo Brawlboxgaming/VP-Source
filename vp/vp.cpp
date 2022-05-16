@@ -262,16 +262,6 @@ kmWrite32(0x808B59F4, 0x43100000);
 // Bullet Bill Speed Modifier
 kmWrite32(0x808B59F8, 0x432E0000);
 
-asm void ChangeCannonBulletSpeed(){
-    lis r12, 0xC009
-    ori r12, r12, 0x59F8
-    lis r11, BulletSpeedLoading@ha
-    stw r12, BulletSpeedLoading@l(r11)
-    blr
-}
-
-static RaceLoadHook changeCannonBulletSpeedHook(ChangeCannonBulletSpeed);
-
 // Red Shell Speed Modifier
 kmWrite32(0x808A0FD8, 0x42B40000);
 
