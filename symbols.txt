@@ -1,6 +1,9 @@
 OSReport = 0x801A25D0
 strcmp = 0x8001329c
 
+DCFlushRange = 0x801a162c
+ICInvalidateRange = 0x801a1710
+
 settings = 0x80004004
 
 inputdata = 0x809bd70c

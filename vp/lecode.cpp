@@ -2,20 +2,9 @@
 #include <dvd.h>
 #include <base/rvl_sdk.h>
 
-struct LECTHeader
-{
-    u32 magic;
-    u32 version;
-    u32 buildNum;
-    void * loadAddress;
-    void (*mainFunc)();
-    u32 size;
-    u32 paramSectionOffset;
-    char region;
-    char debugFlag;
-    u8 leVersion;
-    u8 _1f;
-};
+#include "lecode.h"
+
+PostLECodeHook * PostLECodeHook::sHooks = NULL;
 
 static void notFoundError()
 {
@@ -63,7 +52,10 @@ static int loadLECode()
     LECTHeader * newHeader = (LECTHeader *) header.loadAddress;
     newHeader->mainFunc();
 
+    // Call post LE-Code hooks
+    PostLECodeHook::exec();
+
     return 0;
 }
 
-kmOnLoad(loadLECode);
+kmBranch(0x800074d4, loadLECode);
