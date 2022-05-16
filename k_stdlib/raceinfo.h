@@ -25,7 +25,6 @@ public:
 class Timer {
 public:
   Timer(); // 8051c374
-  
   // vtable 808b2d44
   virtual ~Timer(); // 8051c334
   u16 minutes;
@@ -39,7 +38,6 @@ public:
 class GmDataOnlineVsPlayer {
 public:
   GmDataOnlineVsPlayer(); // 80532488
-  
   Timer raceFinishTime;
   u8 unknown_0xc[0x14-0xc];
 }; // Total size 0x14
@@ -52,7 +50,6 @@ public: // vtable override 808b3928
   virtual int handlePositionTracking(); // 8053f4a0
   // unknown virtual functions 5-9
   // constructor was inlined
-  
   GmDataOnlineVsPlayer players[12];
   u8 sendRH2[0x28]; // 0x28 bytes
   u8 unknown_0x120[0x174-0x120];
@@ -64,7 +61,6 @@ public:
   virtual int reset(); // 80535864
   virtual int update(); // 80535904
   // constructor was inlined
-  
   // vtable 808b34b0
   Timer timers[3];
   Random random;
@@ -80,7 +76,6 @@ class RaceinfoPlayer {
 public:
   RaceinfoPlayer(u8 id, u8 lapCount); // 80533ed8
   u8 updateGpRankScore(); // 805368f8
-  
   // vtable 808b34a4
   virtual ~RaceinfoPlayer(); // 80532f48
   u8 unknown_0x4[0x8-0x4];
@@ -124,12 +119,10 @@ public:
   static Raceinfo * sInstance; // 809bd730
   static Raceinfo * getStaticInstance(); // 80532084
   static void destroyStaticInstance(); // 805320d4
-
   Raceinfo(); // 805327a0
   RaceinfoRandom * getRandom(); // 807bd718
   void * setupGamemodeData(u32 mode); // 80532188
   bool isStage(u32 stage);
-
   // vtable 808b3350
   virtual ~Raceinfo(); // 80532e3c
   RaceinfoRandom * random1;

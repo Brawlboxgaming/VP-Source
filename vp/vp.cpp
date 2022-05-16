@@ -185,9 +185,6 @@ kmWrite32(0x807F4DB8, 0x38000001);
 kmWrite32(0x8085C914, 0x38000000);
 kmWrite32(0x8085D460, 0x4BF984FD);
 
-// Blue Shell Speed Modifier
-kmWrite32(0x808A5BC4, 0x44820000);
-
 // Don't Lose VR When Disconnecting
 kmWrite32(0x80856560, 0x60000000);
 
@@ -244,12 +241,42 @@ kmBranch(0x80860A8C, &AllVehiclesInBattle);
 kmWrite32(0x8084FEE8, 0x38000000);
 kmWrite32(0x80553FAC, 0x38A00000);
 
-UnkType *ItemBoxOverFIBModel(int *r3, UnkType U8Source, char *fileName){
-    if (strcmp(fileName, "itemBoxNiseRtpa.brres") == 0){
-        fileName = "itembox.brres";
-        U8Source = 0x1;
-    }
-    ResFile_LoadFromU8(r3, U8Source, fileName);
+// No Team Invincibility
+//kmWrite32(0x80530568, 0x38E00000);
+
+// // VP 200cc
+
+
+
+// Minimum Drift Speed Modifier
+kmWrite32(0x808B5B1C, 0x3EBBBBBC);
+
+// Engine Class Modifier
+kmWrite32(0x808B5CD4, 0x3F666666); //50->100cc
+kmWrite32(0x808B5CD8, 0x3F800000); //100->150cc
+kmWrite32(0x808B5CDC, 0x3F99999A); //150->200cc
+
+// Max Speed Modifier
+kmWrite32(0x808B59F4, 0x43100000);
+
+// Bullet Bill Speed Modifier
+kmWrite32(0x808B59F8, 0x432E0000);
+
+asm void ChangeCannonBulletSpeed(){
+    lis r12, 0xC009
+    ori r12, r12, 0x59F8
+    lis r11, BulletSpeedLoading@ha
+    stw r12, BulletSpeedLoading@l(r11)
+    blr
 }
 
-kmCall(0x807a0160, &ItemBoxOverFIBModel);
+static RaceLoadHook changeCannonBulletSpeedHook(ChangeCannonBulletSpeed);
+
+// Red Shell Speed Modifier
+kmWrite32(0x808A0FD8, 0x42B40000);
+
+// Green Shell Speed Modifier
+kmWrite32(0x808A12E8, 0x42FE6666);
+
+// Blue Shell Speed Modifier
+kmWrite32(0x808A5BC4, 0x45160000);

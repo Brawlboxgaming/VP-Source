@@ -1,8 +1,5 @@
 #pragma once
 #include <kamek.h>
-#include <egg.h>
-#include <nw4r.h>
-#include <common.h>
 
 typedef struct ItemOBJProperties{
     UnkType* unknown_0x0;
@@ -20,6 +17,5 @@ typedef struct ItemOBJProperties{
     u8 unknown_0x71[0x74-0x71];
 }; // Total size 0x74
 
-extern ItemOBJProperties itemObjProperties[15];
-
 void CopyItemOBJPropertiesFromRelToTable();
+extern ItemOBJProperties itemObjProperties[15];
