@@ -44,6 +44,8 @@ DVDClose = 0x8015e568
 DVDReadPrio = 0x8015e834
 OSReport = 0x801A25D0
 OSFatal = 0x801a4ec4
+DCFlushRange = 0x801a162c
+ICInvalidateRange = 0x801a1710
 __nw__FUl = 0x80229dcc
 __dl__FPv = 0x80229e14
 
