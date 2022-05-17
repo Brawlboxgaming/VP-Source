@@ -39,7 +39,7 @@ class ItemSlotData {
   ItemSlotTableHolder specialChances;
   s32 * itemsInWheel; // first s32 is number of items, followed by the item ids (visual only, doesn't stop you pulling other items)
   s32 * specialBoxItemsInWheel; // a series of lists in same structure as itemsInWheel, one for each column of the special table
-  // unknown 0x30-33
+  u8 unknown_0x30[0x34-0x30];
   u32 itemSpawnTimers[4]; // timers in frames for when an item can next be pulled. 0 = lightning, 1 = blue shell, 2 = blooper, 3 = pow
   u32 playerCount; // copied from the global variable by constructor, used to check when the player count changes online
 }; // Total size 0x48
