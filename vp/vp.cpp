@@ -229,6 +229,7 @@ void InvincibilityFrames(PlayerSub14 *playersub14, DamageType newDamage, UnkType
 
 kmCall(0x805721a4, &InvincibilityFrames);
 kmCall(0x805727b4, &InvincibilityFrames);
+kmCall(0x80590d84, &InvincibilityFrames);
 
 kmBranch(0x805320d0, RaceLoadHook::exec);
 kmBranch(0x8053369c, RaceFrameHook::exec);
