@@ -156,7 +156,7 @@ void ChangeItemBehaviour(){
         table[BULLET_BILL].objectId = OBJ_BLUE_SHELL;
         table[BULLET_BILL].useType = ITEMUSE_CIRCLE;
         table[BULLET_BILL].numberOfItems = 0x3;
-        table[GREEN_SHELL].objectId = OBJ_BLUE_SHELL;
+        table[TRIPLE_GREEN_SHELL].objectId = OBJ_BLUE_SHELL;
     }
 }
 
@@ -299,13 +299,16 @@ void VSPointsSystem(){
         if (finishTime != 0){
             s32 finishTimeOf1st = finishTimerOf1st->milliseconds + finishTimerOf1st->seconds*1000 + finishTimerOf1st->minutes*60000;
 
-            s32 timeDifference = (finishTimeOf1st - finishTime)/1000;
+            s32 timeDifference = (finishTime - finishTimeOf1st)/1000;
 
             if (timeDifference >= 0){
                 raceData->main.scenarios[1].players[playerId].score = raceData->main.scenarios[1].players[playerId].previousScore + (30-timeDifference);
                 if (playerId == playerIdOf1st){
                     raceData->main.scenarios[1].players[playerId].score += 5;
                 }
+            }
+            else{
+                raceData->main.scenarios[1].players[playerId].score = raceData->main.scenarios[1].players[playerId].previousScore;
             }
         }
     }
