@@ -33,7 +33,7 @@ class ItemSlotData {
   // Always constructed inline
   
   // vtable 808d27b4
-  // unknown 0x4-f
+  u8 unknown_0x4[0x10-0x4];
   ItemSlotTableHolder playerChances;
   ItemSlotTableHolder cpuChances;
   ItemSlotTableHolder specialChances;
