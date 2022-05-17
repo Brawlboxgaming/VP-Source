@@ -3,7 +3,7 @@
 bool BlueShellSwapping(bool hasItem){
     if (settings.mode == BSS){
         for(int i=0; i<4; i++){
-            u8 playerId = (&racedata->main)->scenarios[0].settings.hudPlayerIds[i];
+            u8 playerId = (&raceData->main)->scenarios[0].settings.hudPlayerIds[i];
             if (playerId != 0xFF){
                 ItemId currentItem = itemHolder->players[playerId].inventory.currentItemId;
                 if (currentItem == BLUE_SHELL){
@@ -11,7 +11,7 @@ bool BlueShellSwapping(bool hasItem){
                     if(CheckButtonPressed(playerId, BUTTON_MINUS)){
                         switchItem = true;
                     }
-                    else if ((menudata->sub.controllerInfos[0].controllerSlotAndTypeActive & 0xFF) == GCN){
+                    else if ((menuData->sub.controllerInfos[0].controllerSlotAndTypeActive & 0xFF) == GCN){
                         if (CheckButtonPressed(playerId, C_STICK_LEFT) || 
                             CheckButtonPressed(playerId, C_STICK_RIGHT) ||
                             CheckButtonPressed(playerId, C_STICK_UP) ||
@@ -23,7 +23,7 @@ bool BlueShellSwapping(bool hasItem){
                         itemHolder->players[playerId].inventory.currentItemId = TRIPLE_MUSHROOM;
                         u8 mushroomCount = 3;
                         u8 playerCount = itemHolder->playerCount;
-                        u8 position = raceinfo->players[playerId]->position;
+                        u8 position = raceInfo->players[playerId]->position;
                         float third = (float)position/(float)playerCount;
                         if (third <= 1.0f/3.0f){
                             mushroomCount = 1;

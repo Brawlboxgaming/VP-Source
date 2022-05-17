@@ -100,7 +100,7 @@ public:
 
 class TTScreen: public RaceScreen { //just an example
     TTScreen(){//806247cc
-        u32 gamemode = *(&racedata->main.scenarios[0].settings.gamemode);
+        u32 gamemode = *(&raceData->main.scenarios[0].settings.gamemode);
         nextScreenId = 0x21;
         if(gamemode == MODE_TIME_TRIAL || gamemode ==  MODE_GHOST_RACE){
             nextScreenId = 0x2D;

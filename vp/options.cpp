@@ -7,7 +7,7 @@ int miiheads(Racedata *racedata, int r4, int r5, u8 id){
             if (id == 0){
             charId = 0x2a;
             }
-            else if(rknetcontroller->connectionState != 0)
+            else if(rkNetController->connectionState != 0)
             {
                 charId = 0x2a;
             }
@@ -21,12 +21,12 @@ kmWrite32(0x807eb15c, 0x60000000);
 kmWrite32(0x807eb160, 0x88de01b4);
 
 void musicSpeedup(int r3, u32 jingle, u32 r5){
-    RaceinfoPlayer *localPlayer = raceinfo->players[(&racedata->main)->scenarios[0].settings.hudPlayerIds[0]];
+    RaceinfoPlayer *localPlayer = raceInfo->players[(&raceData->main)->scenarios[0].settings.hudPlayerIds[0]];
     PlayerSound *playerSound = *(&playerHolder->players[localPlayer->id]->pointers.playerSound);
 	u8 maxLap = localPlayer->maxLap;
-    if (maxLap == (&racedata->main)->scenarios[0].settings.lapCount && (&racedata->main)->scenarios[0].settings.lapCount != 1){
+    if (maxLap == (&raceData->main)->scenarios[0].settings.lapCount && (&raceData->main)->scenarios[0].settings.lapCount != 1){
         if (settings.finalLapSpeedup){
-            Timer *raceTimer = &raceinfo->timerManager->timers[0];
+            Timer *raceTimer = &raceInfo->timerManager->timers[0];
             Timer *playerTimer = &localPlayer->lapFinishTimes[maxLap-2];
             Timer difference = *raceTimer - playerTimer;
             if(difference.minutes < 1 && difference.seconds < 5){
@@ -38,8 +38,8 @@ void musicSpeedup(int r3, u32 jingle, u32 r5){
             }
         }
         else{
-            if ((maxLap != playerSound->currentLap) && (*(&musichandler->raceState) == 0x4 || *(&musichandler->raceState) == 0x6)){
-                ChangeMusic(musichandler, (RaceState)0x5); //0x5 is racestate FAST
+            if ((maxLap != playerSound->currentLap) && (*(&musicHandler->raceState) == 0x4 || *(&musicHandler->raceState) == 0x6)){
+                ChangeMusic(musicHandler, (RaceState)0x5); //0x5 is racestate FAST
             }
         }
     }

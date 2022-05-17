@@ -50,12 +50,12 @@ void CtrlRaceSpeedo::OnUpdate(){
 
 void patchCtrlRaceBaseCount(RaceScreen *raceScreen, u32 controlCount)
 {
-   u8 localPlayerCount = *(&racedata->main.scenarios[0].localPlayerCount);
+   u8 localPlayerCount = *(&raceData->main.scenarios[0].localPlayerCount);
    raceScreen->InitControlGroup(controlCount + localPlayerCount);
 }
 
 void createSOM(RaceScreen *raceScreen, u32 bitField){
-   u8 localPlayerCount = *(&racedata->main.scenarios[0].localPlayerCount) ; //to make it 0 indexed
+   u8 localPlayerCount = *(&raceData->main.scenarios[0].localPlayerCount) ; //to make it 0 indexed
    u32 firstIndex = raceScreen->scontrolGroup.controlCount - localPlayerCount;
    for (int i = 0; i < localPlayerCount; i++){
       CtrlRaceSpeedo *som = new(CtrlRaceSpeedo);

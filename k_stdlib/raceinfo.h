@@ -144,4 +144,4 @@ public:
   u8 unknown_0x40[0x4c-0x40];
 }; // Total size 0x4c
 
-extern Raceinfo *raceinfo;
+extern Raceinfo *raceInfo;

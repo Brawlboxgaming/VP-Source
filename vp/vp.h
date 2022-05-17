@@ -10,7 +10,7 @@
 #include <common.h>
 #include <inputdata.h>
 #include <base/c_stdlib.h>
-#include <item.h>
+#include <itemholder.h>
 #include <playermodel.h>
 #include <itembehaviour.h>
 #include <itemobjproperties.h>

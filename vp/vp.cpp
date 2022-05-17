@@ -10,8 +10,8 @@ RaceFrameHook *RaceFrameHook::sHooks = NULL;
 s16 invincibilityTimer[12];
 
 bool CheckButtonPressed(u8 playerHudId, UniversalButtons button){
-    u32 controllerInfo = menudata->sub.controllerInfos[0].controllerSlotAndTypeActive;  
-    RealControllerHolder *realControllerHolder = &inputdata->realControllerHolders[((controllerInfo & 0xFF00) >> 8)-1];
+    u32 controllerInfo = menuData->sub.controllerInfos[0].controllerSlotAndTypeActive;  
+    RealControllerHolder *realControllerHolder = &inputData->realControllerHolders[((controllerInfo & 0xFF00) >> 8)-1];
     u16 buttonPressed = realControllerHolder->inputStates[0].buttonRaw;
     ControllerType controllerType = ControllerType(controllerInfo & 0xFF);
 
@@ -156,6 +156,7 @@ void ChangeItemBehaviour(){
         table[BULLET_BILL].objectId = OBJ_BLUE_SHELL;
         table[BULLET_BILL].useType = ITEMUSE_CIRCLE;
         table[BULLET_BILL].numberOfItems = 0x3;
+        table[GREEN_SHELL].objectId = OBJ_BLUE_SHELL;
     }
 }
 
@@ -217,7 +218,7 @@ void ResetTimers(){
 static RaceLoadHook resetTimerHook(ResetTimers);
 
 void InvincibilityFrames(PlayerSub14 *playersub14, DamageType newDamage, UnkType r5, int r6, u32 r7){ // For Chaotic add random item damage
-    if (racedata->main.scenarios[0].settings.gamemode != MODE_BATTLE){
+    if (raceData->main.scenarios[0].settings.gamemode != MODE_BATTLE){
         u8 playerId = playersub14->playerPointers->params->playerIdx;
         if (invincibilityTimer[playerId] > 0){
             return;
@@ -229,7 +230,7 @@ void InvincibilityFrames(PlayerSub14 *playersub14, DamageType newDamage, UnkType
 
 kmCall(0x805721a4, &InvincibilityFrames);
 kmCall(0x805727b4, &InvincibilityFrames);
-kmCall(0x80590d84, &InvincibilityFrames);
+kmBranch(0x80590d84, &InvincibilityFrames);
 
 kmBranch(0x805320d0, RaceLoadHook::exec);
 kmBranch(0x8053369c, RaceFrameHook::exec);
@@ -243,7 +244,8 @@ kmWrite32(0x8084FEE8, 0x38000000);
 kmWrite32(0x80553FAC, 0x38A00000);
 
 // No Team Invincibility
-//kmWrite32(0x80530568, 0x38E00000);
+kmWrite32(0x807bd2bc, 0x38000000);
+kmWrite32(0x80572618, 0x38000000);
 
 // // VP 200cc
 
@@ -278,9 +280,35 @@ UnkType MegaTC(Player *player, int r4, int r5, int r6){
 kmCall(0x80580630, &MegaTC);
 
 u32 AccurateItemRoulette(int r3, int itemBoxSetting, int position, s32 r6, int r7){
-    u8 playerId = raceinfo->playerIdInEachPosition[position];
+    u8 playerId = raceInfo->playerIdInEachPosition[position];
     ItemHolderPlayer itemholder = itemHolder->players[playerId];
     return DecideItem(itemSlotData, itemBoxSetting, position, itemholder.isHuman, 0x1, &itemholder);
 }
 
 kmBranch(0x807BB8D0, &AccurateItemRoulette);
+
+void VSPointsSystem(){
+    for (int i = 0; i < raceData->main.scenarios[1].playerCount; i++){
+        u8 playerId = raceInfo->playerIdInEachPosition[i];
+        u8 playerIdOf1st = raceInfo->playerIdInEachPosition[0];
+
+        Timer *finishTimer = raceInfo->players[playerId]->raceFinishTime;
+        Timer *finishTimerOf1st = raceInfo->players[playerIdOf1st]->raceFinishTime;
+
+        s32 finishTime = finishTimer->milliseconds + finishTimer->seconds*1000 + finishTimer->minutes*60000;
+        if (finishTime != 0){
+            s32 finishTimeOf1st = finishTimerOf1st->milliseconds + finishTimerOf1st->seconds*1000 + finishTimerOf1st->minutes*60000;
+
+            s32 timeDifference = (finishTimeOf1st - finishTime)/1000;
+
+            if (timeDifference >= 0){
+                raceData->main.scenarios[1].players[playerId].score = raceData->main.scenarios[1].players[playerId].previousScore + (30-timeDifference);
+                if (playerId == playerIdOf1st){
+                    raceData->main.scenarios[1].players[playerId].score += 5;
+                }
+            }
+        }
+    }
+}
+
+kmBranch(0x8052ed14, &VSPointsSystem);

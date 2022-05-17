@@ -291,4 +291,4 @@ public:
     MenuData98 *menudata98;
 }; //Total Size 0x9C
 
-extern MenuData *menudata;
+extern MenuData *menuData;

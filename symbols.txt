@@ -183,14 +183,14 @@ BlueShellSpeed = 0x808e5ca4
 
 
 #Static Instances
-inputdata = 0x809bd70c
-racedata = 0x809bd728
-raceinfo = 0x809bd730
+inputData = 0x809bd70c
+raceData = 0x809bd728
+raceInfo = 0x809bd730
 playerHolder = 0x809c18f8
-menudata = 0x809c1e38
-rknetcontroller = 0x809c20d8
-musichandler = 0x809c27f8
-playermodel = 0x809c2f38
+menuData = 0x809c1e38
+rkNetController = 0x809c20d8
+musicHandler = 0x809c27f8
+playerModel = 0x809c2f38
 itemObjProperties = 0x809c2f48
 itemHolder = 0x809c3618
 itemSlotData = 0x809c3670

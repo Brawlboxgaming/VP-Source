@@ -8,4 +8,4 @@ public:
     u8 unknown_0x2c[0x29c8 - 0x2c];
 };
 
-extern Rknetcontroller *rknetcontroller;
+extern Rknetcontroller *rkNetController;

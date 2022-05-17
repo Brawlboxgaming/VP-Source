@@ -176,4 +176,4 @@ public:
   u8 unknown_0x15b4[0x415c-0x15b4];
 }; // Total size 0x415c
 
-extern InputData *inputdata;
+extern InputData *inputData;

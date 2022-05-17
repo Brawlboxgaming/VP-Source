@@ -34,4 +34,4 @@ public:
 	u8 unknown_0x70[0x178-0x70];
 };//Total Size 0x178
 
-extern MusicHandler *musichandler;
+extern MusicHandler *musicHandler;
