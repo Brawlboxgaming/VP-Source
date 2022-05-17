@@ -270,10 +270,16 @@ static PostLECodeHook redShellSpeedModifier(&RedShellSpeed, 0x3e6042b4, PostLECo
 static PostLECodeHook blueShellSpeedModifier(&BlueShellSpeed, 0x3e60431c, PostLECodeHook::WRITE32);
 
 UnkType MegaTC(Player *player, int r4, int r5, int r6){
-
     UseMegaFunction(player);
-
     return 0;
 }
 
 kmCall(0x80580630, &MegaTC);
+
+u32 AccurateItemRoulette(int r3, int itemBoxSetting, int position, s32 r6, int r7){
+    u8 playerId = raceinfo->playerIdInEachPosition[position];
+    ItemHolderPlayer itemholder = itemHolder->players[playerId];
+    return DecideItem(itemSlotData, itemBoxSetting, position, itemholder.isHuman, 0x1, &itemholder);
+}
+
+kmBranch(0x807BB8D0, &AccurateItemRoulette);

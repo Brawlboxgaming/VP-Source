@@ -172,6 +172,7 @@ ChangeMusic = 0x80711ac4
 PlayBRSARSound = 0x80716608
 CopyItemOBJPropertiesFromRelToTable = 0x80790e7c
 UseMegaFunction = 0x807a9e50
+DecideItem = 0x807bb42c
 __mi__5TimerFP5Timer = 0x807ee860
 
 
@@ -191,7 +192,8 @@ rknetcontroller = 0x809c20d8
 musichandler = 0x809c27f8
 playermodel = 0x809c2f38
 itemObjProperties = 0x809c2f48
-itemholder = 0x809c3618
+itemHolder = 0x809c3618
+itemSlotData = 0x809c3670
 itemBehaviourTable = 0x809c36a0
 raceScreen = 0x809c4680
 

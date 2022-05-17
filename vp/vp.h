@@ -17,6 +17,7 @@
 #include <screen.h>
 #include <screenelement.h>
 #include <lecode.h>
+#include <itemslotdata.h>
 
 bool CheckButtonPressed(u8 playerHudId, UniversalButtons button);
 extern int *GreenShellSpeed;
@@ -31,6 +32,7 @@ extern "C"{
     void CopyItemOBJPropertiesFromRelToTable(int *itemTable, ItemOBJProperties *itemObjProperties);
     UnkType *ResFile_LoadFromU8(int *r3, UnkType U8Source, char *fileName);
     void UseMegaFunction(Player *player);
+    int DecideItem(ItemSlotData *itemSlotData, s32 itemboxSetting, int position, int isHuman, UnkType r7, ItemHolderPlayer *itemHolderPlayer);
 }
 
 class RaceLoadHook {

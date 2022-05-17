@@ -133,4 +133,4 @@ public:
     u8 unknown_0x418[0x430-0x418];
 };//Total Size 0x430
 
-extern ItemHolder *itemholder;
+extern ItemHolder *itemHolder;
