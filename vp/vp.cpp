@@ -315,3 +315,49 @@ void VSPointsSystem(){
 }
 
 kmBranch(0x8052ed14, &VSPointsSystem);
+
+int UseItem(PlayerSub18 *playerSub18, ItemId id){
+    u8 playerId = playerSub18->playerPointers->params->playerIdx;
+    itemHolder->players[playerId].inventory.currentItemCount++;
+    itemBehaviourTable[id].useFunction(&itemHolder->players[playerId]);
+    return -0x1;
+}
+
+int AllShocksCanLand(PlayerSub18 *playerSub18){
+    return UseItem(playerSub18, LIGHTNING);
+}
+
+int AllMegasCanLand(PlayerSub18 *playerSub18){
+    return UseItem(playerSub18, MEGA_MUSHROOM);
+}
+
+int AllFeathersCanLand(PlayerSub18 *playerSub18){
+    return UseItem(playerSub18, BLOOPER);
+}
+
+int AllPOWsCanLand(PlayerSub18 *playerSub18){
+    return UseItem(playerSub18, POW_BLOCK);
+}
+
+int AllGoldensCanLand(PlayerSub18 *playerSub18){
+    return UseItem(playerSub18, MUSHROOM);
+}
+
+int AllBulletsCanLand(PlayerSub18 *playerSub18){
+    return UseItem(playerSub18, BULLET_BILL);
+}
+
+kmWritePointer(0x808b54b8, AllShocksCanLand);
+kmWritePointer(0x808b54d0, AllMegasCanLand);
+kmWritePointer(0x808b54e8, AllFeathersCanLand);
+kmWritePointer(0x808b54f4, AllPOWsCanLand);
+kmWritePointer(0x808b5500, AllGoldensCanLand);
+kmWritePointer(0x808b550c, AllBulletsCanLand);
+kmWrite32(0x807A66C4, 0x60000000);
+kmWrite32(0x80796D30, 0x38600000);
+kmWrite32(0x80790EF0, 0x39800001);
+kmWrite32(0x80790EF4, 0x39600001);
+kmWrite32(0x80790EF8, 0x39400001);
+kmWrite32(0x80790EFC, 0x39200001);
+
+// FIX GOLDENS BEING INFINITE
