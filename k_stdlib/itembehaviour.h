@@ -27,7 +27,7 @@ typedef struct ItemBehaviour {
   u8 unknown_0x10;
   u8 padding2[3]; // Ignored when copying to array
   ItemUseType useType;
-  void * useFunction; // Item is draggable if this is null
+  void (*useFunction)(ItemHolderPlayer *itemHolderPlayer); // Item is draggable if this is null
 }; // Total size 0x1c
 
 void CopyItemBehaviourFromRelToTable(); // 807bcae0, copies individual structs from rodata into table

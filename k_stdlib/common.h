@@ -160,18 +160,18 @@ enum ItemObjectId{
     OBJ_GREEN_SHELL=0x0,
     OBJ_RED_SHELL=0x1,
     OBJ_BANANA=0x2,
-    OBJ_FAKE_ITEM_BOX=0x7,
     OBJ_MUSHROOM=0x3,
-    OBJ_BOBOMB=0x9,
+    OBJ_STAR=0x4,
     OBJ_BLUE_SHELL=0x5,
     OBJ_LIGHTNING=0x6,
-    OBJ_STAR=0x4,
-    OBJ_GOLDEN_MUSHROOM=0xC,
+    OBJ_FAKE_ITEM_BOX=0x7,
     OBJ_MEGA_MUSHROOM=0x8,
+    OBJ_BOBOMB=0x9,
     OBJ_BLOOPER=0xA,
     OBJ_POW_BLOCK=0xB,
-    OBJ_THUNDER_CLOUD=0xE,
-    OBJ_BULLET_BILL=0xD
+    OBJ_GOLDEN_MUSHROOM=0xC,
+    OBJ_BULLET_BILL=0xD,
+    OBJ_THUNDER_CLOUD=0xE
 };
 
 enum ItemId{
@@ -197,3 +197,24 @@ enum ItemId{
     UNKNOWN_0X13=0x13,
     NONE=0x14,
 };
+
+struct ptmf{
+    int this_delta;
+    int vtableOffset;
+    void *functionPointer;
+};//total size 0xc
+
+struct ptmfHolder{
+    u32 vtable;
+    void* subject; //Pointer to the class instance, most times the class inheriting from PushButton (such as the class for the buttons of the selectionScreen)
+    ptmf ptmf;
+};//total size 0x14
+
+template <class Subject, typename Ret, typename A1, typename A2>
+struct PtmfHolder_2A{
+    u32 vtable;
+    Subject* subject; //Pointer to the class instance, most times the class inheriting from PushButton (such as the class for the buttons of the selectionScreen)
+    Ret (Subject::*ptmf)(u32 r4, u32 r5);
+};//total size 0x14
+
+extern u32 ptmfVtable; 

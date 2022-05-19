@@ -18,6 +18,7 @@
 #include <screenelement.h>
 #include <lecode.h>
 #include <itemslotdata.h>
+#include <specificscreens.h>
 
 bool CheckButtonPressed(u8 playerHudId, UniversalButtons button);
 extern int *GreenShellSpeed;

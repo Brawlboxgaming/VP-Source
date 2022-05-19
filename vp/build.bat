@@ -1,6 +1,8 @@
 @echo off
 SETLOCAL EnableDelayedExpansion
 
+cls
+
 :: Make build folder
 mkdir build
 
@@ -26,8 +28,8 @@ FOR %%H IN (%CPPFILES%) DO (
 echo Linking...
 "../Kamek/bin/Debug/Kamek" %OBJECTS% -dynamic -externals=../symbols.txt -versions=../versions.txt -output-kamek=build\$KV$.bin
 if %ErrorLevel% equ 0 (
-    move /Y build\*.bin "../vp"
-    copy /Y *.bin "../vp/files/Uploaded Packs/varietypack/boot/"
+    move /Y build\*.bin "../vp" >NUL
+    copy /Y *.bin "../vp/files/Uploaded Packs/varietypack/boot/" >NUL
 )
 
 rmdir /Q /S build

@@ -121,6 +121,30 @@ struct GCNStruct{
   s8 verticalCStick; // -50 to 50
 };
 
+class UIInputState {
+public:
+  virtual void unknown_vtable(); //0x808b2f20
+  u16 buttonActions; //bit flags:
+  /*
+    0x1 = forward press
+    0x2 = back press
+    0x4 = start/+ press
+    0x8 = up press
+    0x10 = down press
+    0x20 = left press
+    0x40 = right press
+    0x100 = x/Z
+  */
+  u16 rawButtons;
+  u16 buttonRaw; // bit flags, vary slightly by controller
+  float stickX; // -1.0 to 1.0
+  float stickY; // -1.0 to 1.0
+  u8 unknown_0x10[0x18-0x10];
+  u8 quantisedStickX; // 0-14
+  u8 quantisedStickY; // 0-14
+  u8 unknown_0x1A[0x34-0x1A];
+}; //total size 0x34
+
 class ControllerHolder {
 public:
   ControllerHolder(); // 80520f64 - inlined in RealControllerHolder()
@@ -134,8 +158,9 @@ public:
   // vtable 808b2dd8
   GCNStruct *gcnStruct;
   u8 unknown_0x8[0x28-0x8];
-  InputState inputStates[2]; // 0 is current frame, 1 is previous
-  u8 unknown_0x58[0xd8-0x58];
+  InputState inputStates[2]; // 0 is current frame, 1 is previous    0x28
+  UIInputState uiinputStates[2]; //0 is current frame, 1 is previous 0x58
+  u8 unknown_0xC0[0xd8-0xc0];
 }; // Total size 0xd8
 
 class RealControllerHolder : public ControllerHolder {

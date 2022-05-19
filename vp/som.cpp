@@ -56,7 +56,7 @@ void patchCtrlRaceBaseCount(RaceScreen *raceScreen, u32 controlCount)
 
 void createSOM(RaceScreen *raceScreen, u32 bitField){
    u8 localPlayerCount = *(&raceData->main.scenarios[0].localPlayerCount) ; //to make it 0 indexed
-   u32 firstIndex = raceScreen->scontrolGroup.controlCount - localPlayerCount;
+   u32 firstIndex = raceScreen->controlGroup.controlCount - localPlayerCount;
    for (int i = 0; i < localPlayerCount; i++){
       CtrlRaceSpeedo *som = new(CtrlRaceSpeedo);
       raceScreen->AddControl(firstIndex + i, som, 0); //If 0x9 screens, in solo localplayer = 1, 
