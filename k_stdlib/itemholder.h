@@ -26,11 +26,28 @@ public:
     u8 unknown_0x2ed[0x338-0x2ed];
 }; // Total size 0x338
 
-class ItemObject { //Called ItemControllerSub by Ssanbo seems to be the parent class of item type specific ones
+class ParentItemObject{ //Called ItemControllerSub by Ssanbo seems to be the parent class of item type specific ones
 public:
-    virtual int unknown_vtable();
-    u8 unknown_0x4[0x174-0x4]; //has a bunch of Vec3s, probably for speed/scale
+    ParentItemObject(); //8079d8bc
+    virtual int unknown_vtable(); //0x808d19f0
+    ItemObjectId objectId;
+    u8 unknown_0x8[0x14-0x8];
+    Vec3 unknown_0x20[3];
+    Vec3 position;
+    Vec3 velocity;
+    Vec3 unknown_0x50;
+    float unknown_0x5c;
+    u8 unknown_0x60[0x174-0x60];
 };//Total Size 0x174
+
+class ItemObject : ParentItemObject {
+public:
+    ItemObject(); //807a6928
+    virtual int unknown_vtable(); //808d1c50 each item actually has its own class with as specific vtable, but lazy
+    u8 unknown_0x174[0x1A0-0x174];
+
+}; //total size 0x1A0
+
 
 class PlayerRoulette{
 public:
@@ -92,7 +109,7 @@ class ItemHolderPlayer {
 public:
     PlayerPointers *playerPointers;
     PlayerModel *model;
-    u8 unknown_0xC[0x19-0xC];
+    u8 unknown_0x8[0x18-0x8];
     u8 id;
     bool isHuman;
     bool isRemote;
@@ -112,7 +129,7 @@ public:
 class ItemHolderItem { // one instance per object ID
 public:
     ItemObjectId itemObjectId;
-    ItemObject **itemObject;
+    ParentItemObject **itemObject;
     u32 capacity; //unsure what the diff is with limit
     u32 capacity2;
     u32 objCount; //count on the track, including trailing/spinning
@@ -125,11 +142,11 @@ class ItemHolder : public EGG::Disposer {
 public:
     u8 playerCount;
     u8 unknown_0x11[3];
-    ItemHolderPlayer *players;
+    ItemHolderPlayer *players; //0x14
     ItemHolderPlayer *otherLocalOnlinePlayersplayer[12];
-    ItemHolderItem itemHolderItem[0xF]; //One per objectId
-    UnkType *unknown_ptr[16];
-    ItemObject itemObj;
+    ItemHolderItem itemHolderItem[0xF]; //One per objectId 0x48
+    ItemObject *itemObj[16]; //0x264
+    ParentItemObject parentItemObj; //base one? dummy?
     u8 unknown_0x418[0x430-0x418];
 };//Total Size 0x430
 

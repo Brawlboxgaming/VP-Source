@@ -16,12 +16,14 @@ typedef struct {
 } ItemSlotTableHolder; // Total size 0x8
 
 class ItemSlotData {
+public:
   static ItemSlotData * sInstance(); // 809c3670
   static ItemSlotData * getStaticInstance(); // 807ba77c
   static void destroyStaticInstance(); // 807ba814
 
   virtual ~ItemSlotData(); // 807ba650
-  s32 decideItem(s32 itemboxSetting, s32 position, s32 r6, s32 r7, void * r8); // 807bb42c
+  s32 decideItem(s32 itemboxSetting, s32 position, s32 r6, s32 r7, ItemHolderPlayer *itemHolderPlayer); // 807bb42c
+  s32 decideRandomItem(s32 itemboxSetting, s32 position, s32 r6, s32 r7); // 807bb8d0
   u8 * processTableAndIter(u8 * itemTable, ItemSlotTableHolder * tableHolder, bool updateItemsInWheek, bool isSpecialTable); // 807ba9d8, takes a pointer to a raw table in an item slot file, processes the values and writes them to the data field of the table holder, then returns the pointer to the start of the next table
   void scaleTableForPlayerCount(ItemSlotTableHolder * tableHolder); // 807bad20
   void resetLightningTimer(); // 807bb9bc

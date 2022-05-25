@@ -32,7 +32,8 @@ typedef enum UniversalButtons{
   C_STICK_LEFT,
   C_STICK_RIGHT,
   C_STICK_DOWN,
-  C_STICK_UP
+  C_STICK_UP,
+  DEFAULT
 };
 
 typedef enum Buttons{

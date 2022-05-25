@@ -24,6 +24,12 @@ bool CheckButtonPressed(u8 playerHudId, UniversalButtons button);
 extern int *GreenShellSpeed;
 extern int *RedShellSpeed;
 extern int *BlueShellSpeed;
+extern int *Player_getControllerHolder;
+extern int *RKNetController_ConnectToAnybodyAsync_VsRegionSet;
+extern int *RKNetController_ConnectToAnybodyAsync_BtRegionSet;
+extern int *RKNetController_ConnectToGameServerFromGroupId_VsRegion;
+extern int *RKNetController_ConnectToGameServerFromGroupId_BtRegion;
+//extern int *UseMegaFunction;
 extern "C"{
     void SetMatIcon(UnkType *r3, char *materialName, char *iconPaneName);
     int PlayBRSARSound(int r3, u32 soundId, u32 r5);
@@ -32,8 +38,9 @@ extern "C"{
     void ScreenCtr_loadCtr(UnkType *r3, char *folderName, char *ctrName, char *locName, char **animNames);
     void CopyItemOBJPropertiesFromRelToTable(int *itemTable, ItemOBJProperties *itemObjProperties);
     UnkType *ResFile_LoadFromU8(int *r3, UnkType U8Source, char *fileName);
-    void UseMegaFunction(Player *player);
-    int DecideItem(ItemSlotData *itemSlotData, s32 itemboxSetting, int position, int isHuman, UnkType r7, ItemHolderPlayer *itemHolderPlayer);
+    void GetBrakeSound(u8 characterId, PlayerSub1c *playerSub1c);
+    void UseMegaFunction(ItemHolderPlayer *itemHolderPlayer);
+    void LoadObjModelFromU8(UnkType *OBJCollidable, u8 src, char *fileName, UnkType *r6);
 }
 
 class RaceLoadHook {

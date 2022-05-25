@@ -173,20 +173,32 @@ dtAnimationThing = 0x8063c404
 EffectById__14AnimationThingFUi = 0x8063c820
 DisplayEffect = 0x8063cb20
 
+#ItemSlotData
+DecideItem = 0x807bb42c
+DecideRandomItem = 0x807bb8d0
+decideItem__12ItemSlotDataFiiiiP16ItemHolderPlayer = 0x807bb42c
+decideRandomItem__12ItemSlotDataFiiii = 0x807bb8d0
+
 #ptmf fake vtable
 ptmfVtable = 0x808BD2C4
 ##Rel
 __dt__5TimerFv = 0x8051c334
 LoadFromU8 = 0x805411fc
 ResFile_LoadFromU8 = 0x8055b618
+LoadObjModelFromU8 = 0x8055b6a4
 ApplyDamage = 0x805675dc
+Player_getControllerHolder = 0x805903f4
 getPlayerIdx__14PlayerPointersFv = 0x80590a5c
+GetBrakeSound = 0x806fb444
 ScreenCtr_loadCtr = 0x805c2c60
+RKNetController_ConnectToAnybodyAsync_VsRegionSet = 0x8065920c
+RKNetController_ConnectToAnybodyAsync_BtRegionSet = 0x80659260
+RKNetController_ConnectToGameServerFromGroupId_VsRegionSet = 0x80659724
+RKNetController_ConnectToGameServerFromGroupId_BtRegionSet = 0x80659778
 ChangeMusic = 0x80711ac4
 PlayBRSARSound = 0x80716608
 CopyItemOBJPropertiesFromRelToTable = 0x80790e7c
 UseMegaFunction = 0x807a9e50
-DecideItem = 0x807bb42c
 __mi__5TimerFP5Timer = 0x807ee860
 
 

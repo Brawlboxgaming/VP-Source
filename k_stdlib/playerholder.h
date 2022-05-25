@@ -261,7 +261,7 @@ public:
   float kclRotFactor;
   float kclWheelSpeedFactor;
   float kclWheelRotFactor;
-  s16 flooorCollisionCount;
+  s16 floorCollisionCount;
   u8 unknown_0xa[2];
   int hopStickX;
   int hopFrame;
@@ -828,13 +828,21 @@ public:
   Vec3 unknown_0x4;
 };// Total Size 0x10
 
+class PlayerSoundPlayer{
+public:
+    u8 characterId;
+    u8 unknown_0x1[0x57];
+}; // Total size 0x58
+
 class PlayerSound {
 public:
     // vtable 0x808c8928
     virtual void unknown_vtable();
     u8 unknown_0x0[0x5c-0x4];
     BrstmData *brstmData;
-    u8 unknown_0x60[0xdb-0x60];
+    u8 unknown_0x60[0xb8-0x60];
+    PlayerSoundPlayer *playerSoundPlayer;
+    u8 unknown_0xbc[0xdb-0xbc];
     u8 currentLap;
     u8 unknown_0xdc[0xfc-0xdc];
 };  // Total size 0xfc

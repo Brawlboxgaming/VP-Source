@@ -8,6 +8,10 @@
 RaceLoadHook *RaceLoadHook::sHooks = NULL;
 RaceFrameHook *RaceFrameHook::sHooks = NULL;
 s16 invincibilityTimer[12];
+int fastFallTimer = 0x0;
+
+// Login Region
+kmWrite32(0x80384fd4, 0x30383535);
 
 bool CheckButtonPressed(u8 playerHudId, UniversalButtons button){
     u32 controllerInfo = menuData->sub.controllerInfos[0].controllerSlotAndTypeActive;  
@@ -212,13 +216,15 @@ static RaceFrameHook updateTimerHook(UpdateTimers);
 void ResetTimers(){
     for (int i=0; i<12; i++){
             invincibilityTimer[i] = 0;
-        }
+    }
 }
 
 static RaceLoadHook resetTimerHook(ResetTimers);
 
 void InvincibilityFrames(PlayerSub14 *playersub14, DamageType newDamage, UnkType r5, int r6, u32 r7){ // For Chaotic add random item damage
-    if (raceData->main.scenarios[0].settings.gamemode != MODE_BATTLE){
+    if (raceData->main.scenarios[0].settings.gamemode != MODE_BATTLE && 
+    raceData->main.scenarios[0].settings.gamemode != MODE_PRIVATE_BATTLE && 
+    raceData->main.scenarios[0].settings.gamemode != MODE_PUBLIC_BATTLE){
         u8 playerId = playersub14->playerPointers->params->playerIdx;
         if (invincibilityTimer[playerId] > 0){
             return;
@@ -272,20 +278,86 @@ static PostLECodeHook redShellSpeedModifier(&RedShellSpeed, 0x3e6042b4, PostLECo
 // Blue Shell Speed Modifier
 static PostLECodeHook blueShellSpeedModifier(&BlueShellSpeed, 0x3e60431c, PostLECodeHook::WRITE32);
 
-UnkType MegaTC(Player *player, int r4, int r5, int r6){
-    UseMegaFunction(player);
-    return 0;
+// //
+
+void BrakeDrifting(){
+    for (int i = 0; i < raceData->main.scenarios[0].localPlayerCount; i++)
+    {
+        bool brake = false;
+        u8 hudPlayerId = raceData->main.scenarios[0].settings.hudPlayerIds[i];
+        u32 controllerInfo = menuData->sub.controllerInfos[0].controllerSlotAndTypeActive;
+        ControllerType controllerType = ControllerType(controllerInfo & 0xFF);
+        if(controllerType == CLASSIC || controllerType == GCN){
+            if(CheckButtonPressed(hudPlayerId, BUTTON_A) &&
+            CheckButtonPressed(hudPlayerId, BUTTON_B) &&
+            CheckButtonPressed(hudPlayerId, BUTTON_R)){
+                brake = true;
+            }
+        }
+        else if(controllerType == NUNCHUCK){
+            if(CheckButtonPressed(hudPlayerId, BUTTON_A) &&
+            CheckButtonPressed(hudPlayerId, BUTTON_B) &&
+            CheckButtonPressed(hudPlayerId, BUTTON_DPAD_DOWN)){
+                brake = true;
+            }
+        }
+        else if(controllerType == WHEEL){
+            if(CheckButtonPressed(hudPlayerId, BUTTON_2) &&
+            CheckButtonPressed(hudPlayerId, BUTTON_1) &&
+            CheckButtonPressed(hudPlayerId, BUTTON_B)){
+                brake = true;
+            }
+        }
+
+        if (brake && playerHolder->players[hudPlayerId]->playerPointers->playerSub10->driftState != 0){
+                float multiplier = 0.95;
+                if (playerHolder->players[hudPlayerId]->playerPointers->playerSub10->vehicleSpeed > 0){
+                    multiplier = 0.98;
+                }
+                playerHolder->players[hudPlayerId]->playerPointers->playerSub10->vehicleSpeed *= multiplier;
+        }
+    }
+}
+
+static RaceFrameHook brakeDriftingHook(BrakeDrifting);
+
+void FastFalling(){
+    for (int i = 0; i < raceData->main.scenarios[0].localPlayerCount; i++)
+    {
+        u8 hudPlayerId = raceData->main.scenarios[0].settings.hudPlayerIds[i];
+        if(playerHolder->players[hudPlayerId]->playerPointers->playerSub18->preRespawnTimer > 0){
+            fastFallTimer = 0x80;
+        }
+        else{
+            if (fastFallTimer > 0){
+            fastFallTimer--;
+            }
+            else if(playerHolder->players[hudPlayerId]->playerPointers->playerSub1c->airtime > 0x20 &&
+            inputData->realControllerHolders[i].inputStates->stickY > 0){
+                playerHolder->players[hudPlayerId]->playerPointers->playerGraphics->playerPhysicsHolder->playerPhysics->vel0.y -= inputData->realControllerHolders[i].inputStates->stickY;
+            }
+        }
+    }
+}
+
+static RaceFrameHook fastFallingHook(FastFalling);
+
+void MegaTC(PlayerSub10 *playerSub10){
+    ItemHolderPlayer itemHolderPlayer = itemHolder->players[playerSub10->playerPointers->params->playerIdx];
+    UseMegaFunction(&itemHolderPlayer);
 }
 
 kmCall(0x80580630, &MegaTC);
 
-u32 AccurateItemRoulette(int r3, int itemBoxSetting, int position, s32 r6, int r7){
-    u8 playerId = raceInfo->playerIdInEachPosition[position];
-    ItemHolderPlayer itemholder = itemHolder->players[playerId];
-    return DecideItem(itemSlotData, itemBoxSetting, position, itemholder.isHuman, 0x1, &itemholder);
+int AccurateItemRoulette(ItemSlotData *itemSlotData, int itemBoxSetting, int position, s32 r6, int r7){
+    u8 playerId = raceInfo->playerIdInEachPosition[position-1];
+    ItemHolderPlayer *itemHolderPlayer = &itemHolder->players[playerId];
+    return itemSlotData->decideItem(itemBoxSetting, position, itemHolderPlayer->isHuman, 0x1, itemHolderPlayer);
 }
 
-kmBranch(0x807BB8D0, &AccurateItemRoulette);
+kmCall(0x807ba1e4, &AccurateItemRoulette);
+kmCall(0x807ba428, &AccurateItemRoulette);
+kmCall(0x807ba598, &AccurateItemRoulette);
 
 void VSPointsSystem(){
     for (int i = 0; i < raceData->main.scenarios[1].playerCount; i++){
@@ -301,7 +373,7 @@ void VSPointsSystem(){
 
             s32 timeDifference = (finishTime - finishTimeOf1st)/1000;
 
-            if (timeDifference >= 0){
+            if (timeDifference < 30){
                 raceData->main.scenarios[1].players[playerId].score = raceData->main.scenarios[1].players[playerId].previousScore + (30-timeDifference);
                 if (playerId == playerIdOf1st){
                     raceData->main.scenarios[1].players[playerId].score += 5;
@@ -360,4 +432,14 @@ kmWrite32(0x80790EF4, 0x39600001);
 kmWrite32(0x80790EF8, 0x39400001);
 kmWrite32(0x80790EFC, 0x39200001);
 
-// FIX GOLDENS BEING INFINITE
+// Faster Voting Roulette
+kmWrite32(0x80643c2c, 0x60000000);
+
+void LoadOriginalItemboxes(UnkType *OBJCollidable, u8 src, char *fileName, UnkType *r6){
+    if (strcmp(fileName, "itembox.brres") == 0){
+        src = 0x0;
+    }
+    LoadObjModelFromU8(OBJCollidable, src, fileName, r6);
+}
+
+kmCall(0x8081fdb4, &LoadOriginalItemboxes);
