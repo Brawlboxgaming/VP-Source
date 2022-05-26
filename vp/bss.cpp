@@ -12,10 +12,10 @@ bool BlueShellSwapping(bool hasItem){
                         switchItem = true;
                     }
                     else if ((menuData->sub.controllerInfos[0].controllerSlotAndTypeActive & 0xFF) == GCN){
-                        if (CheckButtonPressed(playerId, C_STICK_LEFT) || 
-                            CheckButtonPressed(playerId, C_STICK_RIGHT) ||
-                            CheckButtonPressed(playerId, C_STICK_UP) ||
-                            CheckButtonPressed(playerId, C_STICK_DOWN)){
+                        if (CheckButtonPressed(playerId, C_STICK_LEFT_EIGHT) || 
+                            CheckButtonPressed(playerId, C_STICK_RIGHT_EIGHT) ||
+                            CheckButtonPressed(playerId, C_STICK_UP_EIGHT) ||
+                            CheckButtonPressed(playerId, C_STICK_DOWN_EIGHT)){
                             switchItem = true;
                         }
                     }

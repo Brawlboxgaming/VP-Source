@@ -1,7 +1,9 @@
 #ifndef __KAMEK_NW4R_H
 #define __KAMEK_NW4R_H
 
-#include "kamek.h"
+#pragma once
+#include <kamek.h>
+class DVDFileStream;
 
 #define NODE_TO_ITEM(node, type, field) \
     ((type *)((char *)node - offsetof(type, field)))
@@ -49,6 +51,7 @@ namespace nw4r {
 		// TODO: Character/text/font utility classes
 		template <class T>
 		class TagProcessorBase { };
+		void Seek(DVDFileStream *stream, u32 begin, u32 r5);
 	}
 
 
@@ -77,7 +80,7 @@ namespace nw4r {
 
 
 		struct VEC2 : public Vec2 { };
-		struct VEC3 : public Vec {
+		struct VEC3 : public Vec3 {
 			void Report(bool addNewLine, const char *prefixText = 0);
 		};
 
@@ -297,8 +300,8 @@ namespace nw4r {
 
 			Material *material;
 
-			Vec trans;
-			Vec rotate;
+			Vec3 trans;
+			Vec3 rotate;
 			Vec2 scale;
 			Vec2 size;
 
@@ -384,6 +387,10 @@ namespace nw4r {
 			UnkType colours[4];
 			detail::TexCoordAry texCoords;
 		}; // Total size 0xe4
+	}
+	namespace snd {
+		void *OpenExtStream(void *dvdSoundArchive, void *dvdFileStream, u32 size, char *path, u32 begin, u32 length);
+		int DetailUtilCalcRandom();
 	}
 
 }

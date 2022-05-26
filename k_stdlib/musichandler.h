@@ -11,6 +11,10 @@ typedef enum RaceState{
 	RACEFINISHED = 0x7
 };
 
+struct TrackToCourseID{
+	CourseId courseID;
+};
+
 class MusicHandlerSub{
 	u8 unknown_0[0x8-0x0];
 	virtual void unknown_vtable();
@@ -35,3 +39,4 @@ public:
 };//Total Size 0x178
 
 extern MusicHandler *musicHandler;
+extern TrackToCourseID trackToCourseIDTable[42];

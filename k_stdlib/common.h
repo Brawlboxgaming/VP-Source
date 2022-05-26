@@ -1,6 +1,13 @@
 #pragma once
 #include <kamek.h>
 
+enum ControllerId {
+    CONTROLLER_Wii_WHEEL = 0x0,
+    CONTROLLER_NUNCHUCK = 0x1,
+    CONTROLLER_CLASSIC = 0x2,
+    CONTROLLER_GCN = 0x3
+};
+
 enum VehicleId
 {
 	STANDARD_KART_S	    =0X00,

@@ -134,7 +134,7 @@ public:
   u8 unknown_0x1c[2];
   s16 introTimer;
   u32 timer;
-  u8 unknown_0x4[0x28-0x24];
+  u8 unknown_0x24[0x28-0x24];
   u32 stage; // 0: intro camera, 1: countdown, 2: race
   u8 unknown_0x2c[2];
   bool canCountdownStart; // instantly true offline, needs syncing online

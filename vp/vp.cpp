@@ -79,8 +79,8 @@ bool CheckButtonPressed(u8 playerHudId, UniversalButtons button){
         
     }
     else {
-        s8 horizontalCStick = realControllerHolder->gcnStruct->horizontalCStick;
-        s8 verticalCStick = realControllerHolder->gcnStruct->verticalCStick;
+        s8 horizontalCStick = inputData->gcnControllers[((controllerInfo & 0xFF00) >> 8)-1].padStatus.horizontalCStickU8;
+        s8 verticalCStick = inputData->gcnControllers[((controllerInfo & 0xFF00) >> 8)-1].padStatus.verticalCStickU8;
         switch (button){
             CHECK_BUTTON(BUTTON_DPAD_LEFT, GCN_DPAD_LEFT)
             CHECK_BUTTON(BUTTON_DPAD_RIGHT, GCN_DPAD_RIGHT)
@@ -94,13 +94,13 @@ bool CheckButtonPressed(u8 playerHudId, UniversalButtons button){
             CHECK_BUTTON(BUTTON_PLUS, GCN_START)
             CHECK_BUTTON(BUTTON_L, GCN_L)
             CHECK_BUTTON(BUTTON_R, GCN_R)
-            case C_STICK_LEFT:
+            case C_STICK_LEFT_EIGHT:
                 return horizontalCStick < -0x20;
-            case C_STICK_RIGHT:
+            case C_STICK_RIGHT_EIGHT:
                 return horizontalCStick > 0x20;
-            case C_STICK_UP:
+            case C_STICK_UP_EIGHT:
                 return verticalCStick > 0x20;
-            case C_STICK_DOWN:
+            case C_STICK_DOWN_EIGHT:
                 return verticalCStick < -0x20;
             default:
                 return false;
@@ -334,7 +334,7 @@ void FastFalling(){
             }
             else if(playerHolder->players[hudPlayerId]->playerPointers->playerSub1c->airtime > 0x20 &&
             inputData->realControllerHolders[i].inputStates->stickY > 0){
-                playerHolder->players[hudPlayerId]->playerPointers->playerGraphics->playerPhysicsHolder->playerPhysics->vel0.y -= inputData->realControllerHolders[i].inputStates->stickY;
+                playerHolder->players[hudPlayerId]->playerPointers->playerGraphics->playerPhysicsHolder->playerPhysics->speed0.y -= inputData->realControllerHolders[i].inputStates->stickY;
             }
         }
     }

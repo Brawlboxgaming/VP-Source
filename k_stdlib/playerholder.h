@@ -261,7 +261,7 @@ public:
   float kclRotFactor;
   float kclWheelSpeedFactor;
   float kclWheelRotFactor;
-  s16 floorCollisionCount;
+  s16 flooorCollisionCount;
   u8 unknown_0xa[2];
   int hopStickX;
   int hopFrame;
@@ -571,15 +571,15 @@ public:
   Mat34 invInertiaTensor;
   float rotationSpeed;
   Vec3 position;
-  Vec3 vel0; // speed caused by gravity and normal force
+  Vec3 speed0; // speed caused by gravity and normal force
   Vec3 unknown_0x80;
   Vec3 unknown_0x8c;
   Vec3 unknown_0x98;
   Vec3 rotVec0; // contains drift, diving and wheel rotation
-  Vec3 vel2;
+  Vec3 speed2;
   Vec3 rotVec1;
-  Vec3 vel3;
-  Vec3 vel; // sum of vel0, vel1, vel2 and vel3
+  Vec3 speed3;
+  Vec3 speed; // sum of vel0, vel1, vel2 and vel3
   float speedNorm;
   Vec3 rotVec2;
   Quat mainRot;
@@ -589,7 +589,7 @@ public:
   Quat specialRot; // e.g. trick
   Quat unknown_0x138;
   float gravity; // 1.3f most of the time
-  Vec3 vel1; // speed caused by the vehicle engine
+  Vec3 engineSpeed; // speed caused by the vehicle engine
   u8 unknown_0x158[0x178-0x158];
   float stabilizationFactor;
   Vec3 speed1Adj;
@@ -795,18 +795,18 @@ public:
   Vec3 bottomDirection;
 }; // Total size 0x48
 
-class Wheel0 : public Object3D {
+class Suspensions : public Object3D {
 public:
-  Wheel0(PlayerParams *playerParams); // 80598b08
+  Suspensions(PlayerParams *playerParams); // 80598b08
   UnkType init(); // 80598bd4
   // vtable 808b6640
   u8 unknown_0x8c[0x90-0x8c];
   WheelPhysicsHolder *wheelPhysicsHolder;
 }; // Total size 0x94
 
-class Wheel1 : public Object3D {
+class Wheels : public Object3D {
 public:
-  Wheel1(PlayerParams *playerParams, bool xMirroredKart, u32 bspWheelIdx); // 8059aa44
+  Wheels(PlayerParams *playerParams, bool xMirroredKart, u32 bspWheelIdx); // 8059aa44
   // vtable 808b67e0
   u8 unknown_0x8c[0x90-0x8c];
   u32 xMirroredKart;
@@ -815,7 +815,7 @@ public:
   float unknown_0x9c;
 }; // Total size 0xa0
 
-class Wheel1Front : public Wheel1 {
+class WheelsFront : public Wheels {
 public:
   // vtable 808b6798
   u8 unknown_0xa0[0xd0-0xa0];
@@ -828,23 +828,18 @@ public:
   Vec3 unknown_0x4;
 };// Total Size 0x10
 
-class PlayerSoundPlayer{
-public:
-    u8 characterId;
-    u8 unknown_0x1[0x57];
-}; // Total size 0x58
-
 class PlayerSound {
 public:
     // vtable 0x808c8928
     virtual void unknown_vtable();
     u8 unknown_0x0[0x5c-0x4];
     BrstmData *brstmData;
-    u8 unknown_0x60[0xb8-0x60];
-    PlayerSoundPlayer *playerSoundPlayer;
-    u8 unknown_0xbc[0xdb-0xbc];
+    u8 unknown_0x60[0xdb-0x60];
     u8 currentLap;
-    u8 unknown_0xdc[0xfc-0xdc];
+    u8 unknown_0xdc[0xf0-0xdc];
+    u16 kclFlag;
+    u16 variant;
+    u8 unknown_0xF4[0xfc-0xf4];
 };  // Total size 0xfc
 
 class PlayerPointers {
@@ -871,8 +866,8 @@ public:
   Vec3 *getSpeed(); // 80590d08
   Vec3 *getSpeedRatioCapped(); // 80590dc0
   VehicleType getVehicleType(); // 80590a10
-  Wheel0 *getWheel0(u32 wheelIdx); // 805906b4
-  Wheel1 *getWheel1(u32 wheelIdx); // 805906dc
+  Suspensions *getSuspensions(u32 wheelIdx); // 805906b4
+  Wheels *getWheels(u32 wheelIdx); // 805906dc
   u16 getWheelCount0(); // 805902dc
   u16 getWheelCount1(); // 805902ec
   WheelPhysics *getWheelPhysics(u32 wheelIdx); // 80590734
@@ -885,9 +880,9 @@ public:
   PlayerParams *params;
   PlayerSub1c *playerSub1c;
   PlayerGraphics *playerGraphics;
-  Wheel0 **wheels0;
-  Wheel1 **wheels1;
-  int *unknown_0x14;
+  Suspensions **suspensions;
+  Wheels **wheels;
+  PlayerModel *mode;
   PlayerSub *playerSub;
   PlayerSound *playerSound;
   int *unknown_0x20;
@@ -909,6 +904,7 @@ public:
   UnkType update(); // 8058eeb4
   UnkType update2(); // 8058eebc
   UnkType initWheels(); // 8058ea0c
+  bool IsLocal(); //80590650
   PlayerPointers *playerPointers; // a pointer to the inline instance at 0x1c
   int *unknown_0x4;
   int *unknown_0x8;

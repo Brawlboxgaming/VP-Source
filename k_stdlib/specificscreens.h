@@ -3,7 +3,38 @@
 #include <common.h>
 #include <screen.h>
 
+class GhostManagerScreen;
 
+typedef enum GhostManagerScreenState{
+    IDLE,
+    SAVED_GHOST_RACE_FROM_MENU = 0x3,
+    SAVED_GHOST_REPLAY = 0x6,
+    STAFF_GHOST_RACE_FROM_MENU = 0x9,
+    STAFF_GHOST_REPLAY = 0xc
+};
+
+
+class RaceScreen: public Screen { 
+public:
+    RaceScreen(); //ctor seems inlined, vtable 0x808da710
+    virtual ~RaceScreen();
+    virtual int getNextScreen();
+    virtual void func_0x20();
+    virtual void Init();
+    virtual void clearInstance(); //sets 0x809c4680 to 0
+    virtual void func_0x34(); //sets 0x44 to 0
+    virtual void func_0x48(); //extensively patched in advanced watch replay
+    virtual void func_0x4C(); //also patched in advanced watch replay
+    virtual int get809cXXXX(); //returns 809C4640
+    int getCtrlRaceBaseCount(); //returns how screen elements there should be
+    void InitCtrlRaceBase(u32 bitField); //inits all of the screen elements 
+
+    u32 nextScreenId;
+    UnkClass unkClass;
+    UnkClass2 unkClass2;
+    u8 unknown_0x1C0[0x1DC-0x1C0]; //based on all of the new such as 806234f4
+}; //Total Size 0x1DC
+extern RaceScreen *raceScreen;
 
 class CharacterSelectButtons: public LayoutUIControl{
 public:
@@ -11,7 +42,7 @@ public:
     virtual ~CharacterSelectButtons(); //80627008
     CharacterId selectedCharacter;
     u8 unknown_0x178[0x184-0x178];
-    u32 unknown_0x184; //807e25d4
+    UITimer *timer; //807e25d4
     u32 playerCount;
     bool unknown_0x18C; //result of 8081d020, loop at 0x807e2610
     bool unknown_0x18D; //result of 8081d020
@@ -49,7 +80,6 @@ public:
     ptmfHolder ptmfHolder_0x21C; //vtable = 0x808bd2c4 function = 807e3aac (onMiiDeSelect)
 }; //total size 0x230
 
-
 class VehSelModelPosition : public ModelPosition{ //this c
 public:
     VehSelModelPosition(); //805f39bc vtable 808B9B0C 805f39bc
@@ -57,33 +87,6 @@ public:
 
     float unknown_0x180;
 }; //Total size 0x184
-
-
-class CharacterSelectScreen: public InteractableScreen {
-public:
-    CharacterSelectScreen(); //80626c10
-    virtual ~CharacterSelectScreen(); //vtable 808d92c0 
-    virtual void onInit(); //8083d55c
-    virtual void Load(); //8083da78
-    ScreenActionController screenActionController;
-    UnkType unknown_0x654;
-    ptmfHolder ptmfHolder_0x658; //vtable = 0x808bd1d4 function = 8083e740 on itself
-    ptmfHolder ptmfHolder_0x66C; //vtable = 0x808bd1d4 offset = 0x64 call is virtual on itself
-    ptmfHolder ptmfHolder_0x680; //vtable = 0x808bd1d4 function = 8083E924 on itself
-    ptmfHolder onBackPressHandler; //vtable = 0x808BD1C8 function = 8083E928 (onBackPress)
-    ptmfHolder handler; //vtable = 0x808bd1c8 offset = 0x7c call is virtual on itself Handler
-    u32 unknown_0x6BC[2]; //constructed at 1
-    CharacterSelectButtons buttons;
-    UnkType *localPlayerMii;
-    u8 unknwon_0x8F8[0x904-0x8f8];
-    u32 playerCount; //0x904
-    u32 unknwon_0x908;
-    UITimer *timer; //0x90c
-    UnkType **unk_array_0x910; //pointer to an array of an unknown class inherited from layoutUIControl, of size 0x178
-    UnkType **unk_array_0x914; //pointer to an array of an unknown class inherited from layoutUIControl, of size 0x188
-
-}; //Total Size 0x918
-
 
 class UnkClassVehSel : public LayoutUIControl {
     UnkClassVehSel();//805f39bc vtable 808d3420
@@ -94,82 +97,10 @@ class UnkClassVehSel : public LayoutUIControl {
     u32 unknown_0x180; //init at 0x7
 }; //total size 0x184
 
-class VehicleSelectScreen: public InteractableScreen {
-public:
-    VehicleSelectScreen(); //80627060
-    virtual ~VehicleSelectScreen(); //vtable 808d9880
-    virtual void onInit(); //80844d68
-    virtual void Load(); //80845510
-    ScreenActionController screenActionController;
-    UnkType unknown_0x654;
-    ptmfHolder ptmfHolder_0x658; //vtable = 0x808bd1dc function = 80846c1c on itself (onClick)
-    ptmfHolder ptmfHolder_0x66C; //vtable = 0x808bd1dc offset = 0x64 call is virtual on itself (onSelect)
-    ptmfHolder ptmfHolder_0x680; //vtable = 0x808bd1dc function = 80846fbc on itself (onDeSelect, just a blr)
-    ptmfHolder onBackPressHandler; //vtable = 0x808BD1b0 function = 80846fc0 (onBackPress)
-    ptmfHolder handler; //vtable = 0x808bd1b0 offset = 0x7c call is virtual on itself Handler (onStartPress?)
-    u32 unknown_0x6BC[2]; //constructed at 1
-    u32 unknwown_0x6C4; //init at -1
-    bool unknown_0x6C8[0x6EC-0x6C8]; //result of 8081cfb4, always 1 on construct
-    u32 unknwon_0x6EC; //init at 2
-    UITimer *timer;
-    u32 buttonId;
-    VehSelModelPosition vehSelModelPosition;
-    UnkClassVehSel _0x87c; //808d3420 inherited from LayoutUIControl, 
-    float unknown_0xA00;
-    float unknown_0xA04;
-    u32 unlockedVehiclesCount; //if 3, will display only 3 vehicles, the rest will be ?
-   
-}; //Total Size 0xA0C
-
-
 class UnkVehSelBattleStruct :public LayoutUIControl{
 public:
     virtual ~UnkVehSelBattleStruct(); //0x8062912c
 }; //total size 0x178
-
-
-class VehicleSelectBattleScreen : public InteractableScreen {
-public:
-    VehicleSelectBattleScreen(); //80628e3c vtable 0x808D8F40
-    virtual ~VehicleSelectBattleScreen(); //8083b014
-    ScreenActionController screenActionController;
-    UnkType unknown_0x654;
-    ptmfHolder ptmfHolder_0x658; //vtable = 0x808bd114 function = 8083A918 on itself (onClick)
-    ptmfHolder ptmfHolder_0x66C; //vtable = 0x808bd114 offset = 0x64 call is virtual on itself (onSelect)
-    ptmfHolder ptmfHolder_0x680; //vtable = 0x808bd114 function = 8083AB78 on itself (onDeSelect, just a blr)
-    ptmfHolder onBackPressHandler; //vtable = 0x808BD108 function = 8083AB80 (onBackPress)
-    ptmfHolder handler; //vtable = 0x808BD108 offset = 0x7c call is virtual on itself Handler (onStartPress?)
-    u32 unknown_0x6BC[2]; //constructed at 1
-    u32 unknwown_0x6C4; //init at -1
-    UITimer *timer;
-    u32 unknown_0x6CC;
-    VehSelModelPosition modelPosition; //0x6D0
-    UnkVehSelBattleStruct unkClass; //0x854
-    UnkClassVehSel  _0x9cc;
-
-}; // Total Size 0xb50
-
-
-class DriftSelectScreen: public InteractableScreen {
-public:
-    DriftSelectScreen(); //806273cc
-    virtual ~DriftSelectScreen(); //vtable 808d9db0
-    virtual void onInit(); //8084ddfc might be for 6c
-    virtual void Load(); //8084e13c
-    ScreenActionController screenActionController;
-    UnkType unknown_0x654;
-    ptmfHolder ptmfHolder_0x658; //vtable = 0x808bd15c function = 8084e388 on itself (onClick)
-    ptmfHolder ptmfHolder_0x66C; //vtable = 0x808bd15c offset = 0x64 call is virtual on itself (onSelect)
-    ptmfHolder ptmfHolder_0x680; //vtable = 0x808bd15c function = 8084e6f4 on itself (onDeSelect, just a blr)
-    ptmfHolder onBackPressHandler; //vtable = 0x808BD1150 function = 8084e6f8 (onBackPress)
-    ptmfHolder handler; //vtable = 0x808bd150 offset = 0x7c call is virtual on itself Handler
-    u32 playerCount; //0x6BC
-    u32 unknown_0x6C0;
-    UITimer *timer; //0x6C4
-    MenuType menuId;
-   
-}; //Total Size 0x6CC
-
 
 class ScreenElementTimer : public LayoutUIControl{
 public:
@@ -206,7 +137,242 @@ struct PlayerInfo{
     u16 randomThing2; //80651a20, very similar, but uses a different address to start the operations
 };//total size0xC
 
-class TimerScreen : public Screen {
+class CtrlMenuPageTitleText : public LayoutUIControl{
+public:
+    virtual ~CtrlMenuPageTitleText(); //805baf10 vtable 0x808d36d4 
+}; //total size 0x174
+
+class CtrlMenuBottomMessage : public LayoutUIControl{
+public: 
+    virtual ~CtrlMenuBottomMessage(); //805c00c0 vtable 0x808d3698 named based on string in the UIControl part
+}; //total size 0x174
+
+class GhostInfo : public LayoutUIControl {
+public:
+    GhostInfo(); //0x805e274c
+    virtual ~GhostInfo(); //0x805e27dc vtable 808b92c0
+    MiiGroup miiGroup; //0x174
+    //0x20c
+    u8 unknown_0x20C[0x234-0x20c];
+    u32 unknown_0x234; //set to 0
+    u16 unknown_0x238; //set to 0
+    u16 unknown_0x23A; //set to 0
+    float unknown_0x23C;
+    float unknown_0x240;
+    u16 unknown_0x244;
+    u16 unknown_0x246;
+    u32 unknown_0x248; //gets set to 0x00080000 in the ctor
+}; //total size 0x24C
+
+class GhostFile {
+public:
+    bool headerIsValid;
+    u8 unknown_0x1;
+    u16 userData[11]; //emulating wide chars
+    u8 miiData[76];
+    u8 lapCount;
+    u8 unknown_0x65[3];
+    Timer lapTimes[5];
+    Timer finishTime;
+    CharacterId characterId;
+    VehicleId vehicleId;
+    CourseId courseId;
+    ControllerId controllerId;
+    u8 year;
+    u8 month;
+    u8 day;
+    u8 unknown_0xC3;
+    GhostType type;
+    bool isDriftAuto;
+    u8 unknown_0xc9[3];
+    u32 location;
+    u32 inputSize;
+    void *inputs;
+}; //total size 0xd8
+
+class GhostGroup{
+public:
+    GhostGroup(); //0x8051ce94 vtable 808b2d38
+    virtual void func_vtable();
+    u16 count;
+    u8 unknown_0x6[2];
+    u32 ghostType;  //saved 0, downloaded 1, easy 2, expert 3, ghost race 4, competition 5
+    GhostFile *files[32];
+    u32 unknown;
+}; //total size 0x14
+
+struct GhostListEntry{
+    GhostFile *file;
+    u32 licenseId;
+    u32 index;
+    bool isNew;
+    u8 unknown_0xD[3];
+}; //total size 0x10
+
+struct GhostList{
+    GhostListEntry entries[38];
+    u32 count;
+    GhostManagerScreen *ghostManagerScreen;
+}; //total size 0x268
+
+struct RKG{
+    u8 unknown[0x2800];
+};//total size 0x2800
+
+class ArrowControl : public LayoutUIControl {
+    ArrowControl(); //inlined but at 80636470vtable 0x808be998
+    virtual ~ArrowControl(); //0x80636564
+    ScreenElementActionHolder actionHolder;
+    ptmfHolder onSelectHandler; //vtable = 0x808be9d4 function = 80636d08 on itself
+    ptmfHolder onDeselectHandler; //vtable = 0x808be9d4 function = 80636fc4 on itself 0x20C
+    ptmfHolder onScrollHandler; //vtable = 0x808be9d4 function = 806371ac on itself
+    u32 arrowSide; //0x0 for left, 0x1 for right
+    u32 playerCount; //copied straight from arrowpaircontrol
+    bool isVisible;
+    u8 unknown_0x23d[0x240-0x23d]; //might be padding
+    u32 *fuchiPane;
+    u32 *rootPane;
+}; //total size 0x248
+
+
+class ArrowPairControl : public UIControl {
+    ArrowPairControl(); //80635ec4 vtable 0x808be950
+    virtual ~ArrowPairControl(); //8063607c
+    ptmfHolder *rightArrowHandler;
+    ptmfHolder *leftArrowHandler;
+    u32 playerCount;
+    u8 unknown_0xA4[0xa8-0xa4];
+    ArrowControl leftArrow; //0xa8
+    ArrowControl rightArrow;
+}; //total size 0x538
+
+class PauseScreen : public Screen{
+public:
+    PauseScreen(); //80858ca4 vtable 0x808da928
+    virtual ~PauseScreen(); //80624b38
+    u32 unknown_0x44;
+    PushButton **buttons; //number of buttons depends on the specific screen
+    u8 unknown_0x4C[0x54-0x4C];
+    u32 unknown_0x54;
+    u8 unknown_0x58[0xF0-0x58];
+    ScreenType onContinuePressNextScreen;
+    ptmfHolder ptmfHolder_0xF4; //0xF4 vtable = 0x808da9b0 function = 8085a0f4 on itself onClick?
+    ptmfHolder ptmfHolder_0x108; //0x104 vtable = 0x808da9a4 function = 8085a098 on itself onClick?
+    ScreenActionController screenActionController;
+}; //total size 0x340
+
+class TTScreen: public RaceScreen { //just an example, ID 0xd
+    TTScreen(){//806247cc
+        u32 gamemode = *(&raceData->main.scenarios[0].settings.gamemode);
+        nextScreenId = 0x21;
+        if(gamemode == MODE_TIME_TRIAL || gamemode ==  MODE_GHOST_RACE){
+            nextScreenId = 0x2D;
+        }
+    }; 
+    virtual void func_vtable(); //0x808be478
+};
+
+class GhostReplayPauseScreen : public PauseScreen{
+public:
+    GhostReplayPauseScreen(); //80624d7c 808bdb08
+    virtual ~GhostReplayPauseScreen(); //80632f74
+    u32 unknown_0x340;
+}; //total size 0x344
+
+class CharacterSelectScreen: public InteractableScreen { //0x6B
+public:
+    CharacterSelectScreen(); //80626c10
+    virtual ~CharacterSelectScreen(); //vtable 808d92c0 
+    virtual void onInit(); //8083d55c
+    virtual void Load(); //8083da78
+    ScreenActionController screenActionController;
+    UnkType unknown_0x654;
+    ptmfHolder ptmfHolder_0x658; //vtable = 0x808bd1d4 function = 8083e740 on itself
+    ptmfHolder ptmfHolder_0x66C; //vtable = 0x808bd1d4 offset = 0x64 call is virtual on itself
+    ptmfHolder ptmfHolder_0x680; //vtable = 0x808bd1d4 function = 8083E924 on itself
+    ptmfHolder onBackPressHandler; //vtable = 0x808BD1C8 function = 8083E928 (onBackPress)
+    ptmfHolder handler; //vtable = 0x808bd1c8 offset = 0x7c call is virtual on itself Handler
+    u32 unknown_0x6BC[2]; //constructed at 1
+    CharacterSelectButtons buttons;
+    UnkType *localPlayerMii;
+    u8 unknwon_0x8F8[0x904-0x8f8];
+    u32 playerCount; //0x904
+    u32 unknwon_0x908;
+    UITimer *timer; //0x90c
+    UnkType **unk_array_0x910; //pointer to an array of an unknown class inherited from layoutUIControl, of size 0x178
+    UnkType **unk_array_0x914; //pointer to an array of an unknown class inherited from layoutUIControl, of size 0x188
+
+}; //Total Size 0x918
+
+class VehicleSelectScreen: public InteractableScreen { //0x6C
+public:
+    VehicleSelectScreen(); //80627060
+    virtual ~VehicleSelectScreen(); //vtable 808d9880
+    virtual void onInit(); //80844d68
+    virtual void Load(); //80845510
+    ScreenActionController screenActionController;
+    UnkType unknown_0x654;
+    ptmfHolder ptmfHolder_0x658; //vtable = 0x808bd1dc function = 80846c1c on itself (onClick)
+    ptmfHolder ptmfHolder_0x66C; //vtable = 0x808bd1dc offset = 0x64 call is virtual on itself (onSelect)
+    ptmfHolder ptmfHolder_0x680; //vtable = 0x808bd1dc function = 80846fbc on itself (onDeSelect, just a blr)
+    ptmfHolder onBackPressHandler; //vtable = 0x808BD1b0 function = 80846fc0 (onBackPress)
+    ptmfHolder handler; //vtable = 0x808bd1b0 offset = 0x7c call is virtual on itself Handler (onStartPress?)
+    u32 unknown_0x6BC[2]; //constructed at 1
+    u32 unknwown_0x6C4; //init at -1
+    bool unknown_0x6C8[0x6EC-0x6C8]; //result of 8081cfb4, always 1 on construct
+    u32 unknwon_0x6EC; //init at 2
+    UITimer *timer;
+    u32 buttonId;
+    VehSelModelPosition vehSelModelPosition;
+    UnkClassVehSel _0x87c; //808d3420 inherited from LayoutUIControl, 
+    float unknown_0xA00;
+    float unknown_0xA04;
+    u32 unlockedVehiclesCount; //if 3, will display only 3 vehicles, the rest will be ?
+   
+}; //Total Size 0xA0C
+
+class DriftSelectScreen: public InteractableScreen { //0x6D
+public:
+    DriftSelectScreen(); //806273cc
+    virtual ~DriftSelectScreen(); //vtable 808d9db0
+    virtual void onInit(); //8084ddfc might be for 6c
+    virtual void Load(); //8084e13c
+    ScreenActionController screenActionController;
+    UnkType unknown_0x654;
+    ptmfHolder ptmfHolder_0x658; //vtable = 0x808bd15c function = 8084e388 on itself (onClick)
+    ptmfHolder ptmfHolder_0x66C; //vtable = 0x808bd15c offset = 0x64 call is virtual on itself (onSelect)
+    ptmfHolder ptmfHolder_0x680; //vtable = 0x808bd15c function = 8084e6f4 on itself (onDeSelect, just a blr)
+    ptmfHolder onBackPressHandler; //vtable = 0x808BD1150 function = 8084e6f8 (onBackPress)
+    ptmfHolder handler; //vtable = 0x808bd150 offset = 0x7c call is virtual on itself Handler
+    u32 playerCount; //0x6BC
+    u32 unknown_0x6C0;
+    UITimer *timer; //0x6C4
+    MenuType menuId;
+   
+}; //Total Size 0x6CC
+
+class VehicleSelectBattleScreen : public InteractableScreen { //0x78
+public:
+    VehicleSelectBattleScreen(); //80628e3c vtable 0x808D8F40
+    virtual ~VehicleSelectBattleScreen(); //8083b014
+    ScreenActionController screenActionController;
+    UnkType unknown_0x654;
+    ptmfHolder ptmfHolder_0x658; //vtable = 0x808bd114 function = 8083A918 on itself (onClick)
+    ptmfHolder ptmfHolder_0x66C; //vtable = 0x808bd114 offset = 0x64 call is virtual on itself (onSelect)
+    ptmfHolder ptmfHolder_0x680; //vtable = 0x808bd114 function = 8083AB78 on itself (onDeSelect, just a blr)
+    ptmfHolder onBackPressHandler; //vtable = 0x808BD108 function = 8083AB80 (onBackPress)
+    ptmfHolder handler; //vtable = 0x808BD108 offset = 0x7c call is virtual on itself Handler (onStartPress?)
+    u32 unknown_0x6BC[2]; //constructed at 1
+    u32 unknwown_0x6C4; //init at -1
+    UITimer *timer;
+    u32 unknown_0x6CC;
+    VehSelModelPosition modelPosition; //0x6D0
+    UnkVehSelBattleStruct unkClass; //0x854
+    UnkClassVehSel  _0x9cc;
+
+}; // Total Size 0xb50
+
+class TimerScreen : public Screen { //0x90
 public:
     TimerScreen(); //8064fbdc vtable 0x808c069c
     virtual ~TimerScreen(); //8064fc70
@@ -224,19 +390,7 @@ public:
     MiiGroup miiGroup; //0x290
 }; //total size 0x328
 
-class CtrlMenuPageTitleText : public LayoutUIControl{
-public:
-    virtual ~CtrlMenuPageTitleText(); //805baf10 vtable 0x808d36d4 
-}; //total size 0x174
-
-
-class CtrlMenuBottomMessage : public LayoutUIControl{
-public: 
-    virtual ~CtrlMenuBottomMessage(); //805c00c0 vtable 0x808d3698 named based on string in the UIControl part
-}; //total size 0x174
-
-
-class VotingScreen : public Screen {
+class VotingScreen : public Screen { //0x91
 public:
     VotingScreen(); //8064a3f4 vtable 0x808bfd0c
     virtual ~VotingScreen(); //0x8064a4e0
@@ -249,48 +403,49 @@ public:
     u32 unknown_0x1928;
 }; //total size 0x192c
 
-
-
-
-
-
-
-
-class RaceScreen: public Screen {
+class SelectGhostScreen : public Screen { //808bebd8
 public:
-    RaceScreen(); //ctor seems inlined, vtable 0x808da710
-    virtual ~RaceScreen();
-    virtual int getNextScreen();
-    virtual void func_0x20();
-    virtual void Init();
-    virtual void clearInstance(); //sets 0x809c4680 to 0
-    virtual void func_0x34(); //sets 0x44 to 0
-    virtual void func_0x48(); //extensively patched in advanced watch replay
-    virtual void func_0x4C(); //also patched in advanced watch replay
-    virtual int get809cXXXX(); //returns 809C4640
-    int getCtrlRaceBaseCount(); //returns how screen elements there should be
-    void InitCtrlRaceBase(u32 bitField); //inits all of the screen elements 
+    SelectGhostScreen(); //0x806395ec vtable 808bec2c
+    virtual ~SelectGhostScreen(); //0x8063982c
+    ScreenActionController screenactionController; //0x44
+    CtrlMenuPageTitleText ctrlMenuPageTitleText; //0x268
+    GhostInfo ghostInfo; //loads GhostInfo brctr
+    GhostInfo ghostInfo2; //first for easy, 2nd for expert?
+    ArrowPairControl arrowPairControl; //0x874
+    LayoutUIControl pageNumber;
+    PushButton challengeGhostButton;
+    PushButton watchReplayButton;
+    PushButton soloTTButton;
+    CtrlMenuBackButton backButton; //ends at 1880
+    GhostInfo *info;
+    GhostInfo *info2;
+    u32 unknown_0x1884;
+    ptmfHolder ptmfHolder_0x188C; //vtable = 0x808BECC0 function = 8063a1a4 on itself
+    ptmfHolder ptmfHolder_0x18A0; //vtable = 0x808BECC0 function = 8063a2a4 on itself
+    ptmfHolder ptmfHolder_0x18B4; //vtable = 0x808BECa8 function = 8063a3a0 on itself
+    ptmfHolder ptmfHolder_0x18C8; //vtable = 0x808BECa8 function = 8063a3c0 on itself
+    ptmfHolder ptmfHolder_0x18DC; //vtable = 0x808BECa8 function = 8063a3e0 on itself
+    ptmfHolder ptmfHolder_0x18F0; //vtable = 0x808BECa8 function = 8063a400 on itself    
+    ptmfHolder ptmfHolder_0x1904; //vtable = 0x808BEC90 function = 8063a444 on itself
+    GhostList *ghostList; //from screen 0xA7
+    u32 page;
+    u32 unknown_0x1920;
+}; //total size 0x1924
 
-    u32 nextScreenId;
-    UnkClass unkClass;
-    UnkClass2 unkClass2;
-    u8 unknown_0x1C0[0x1DC-0x1C0]; //based on all of the new such as 806234f4
-}; //Total Size 0x1DC
-
-class TTScreen: public RaceScreen { //just an example, ID 0xd
-    TTScreen(){//806247cc
-        u32 gamemode = *(&raceData->main.scenarios[0].settings.gamemode);
-        nextScreenId = 0x21;
-        if(gamemode == MODE_TIME_TRIAL || gamemode ==  MODE_GHOST_RACE){
-            nextScreenId = 0x2D;
-        }
-    }; 
-    virtual void func_vtable(); //0x808be478
-};
-
-
-
-
-
-
-extern RaceScreen *raceScreen;
+class GhostManagerScreen : public Screen {
+public:
+    GhostManagerScreen(); //805e0c38 vtable 0x808b9258
+    virtual ~GhostManagerScreen(); //0x805e0cb
+    InputThing inputThing;
+    GhostGroup *savedGhostGroups[4];
+    GhostGroup *downloadedGhostsGroup;
+    GhostGroup *easyStaffGhostsGroup;
+    GhostGroup *expertStaffGhostsGroup;
+    GhostGroup *unknown_group;
+    bool isNew[0x20]; //for each track
+    GhostManagerScreenState state;
+    u32 unknown_0x98;
+    GhostList list;
+    RKG *rkgBuffer;
+    RKG rkg2;
+};//total size 0x2b0c

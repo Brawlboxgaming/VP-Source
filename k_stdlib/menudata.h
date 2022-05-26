@@ -54,6 +54,7 @@ typedef enum MenuState {
 };
 
 typedef enum ScreenType {
+SCREEN_NONE                                                   =0xFFFFFFFF,
 EMPTY                                                  =0x00,
 ESRB_NOTICE                                            =0x01,
 HZ60_SUGGESTION                                        =0x02,
@@ -218,7 +219,7 @@ RANKINGS_MENU                                          =0xA3,
 CHANNEL_GHOSTS_SCREEN                                  =0xA4,
 DUMMY_LOADS_0XA6                                       =0xA5,
 ENTER_FC                                               =0xA6,
-GHOST_LIST_MANAGER_DOESNT_RENDER                       =0xA7,
+GHOST_LIST_MANAGER                                     =0xA7,
 MARIO_KART_CHANNEL_GHOST_HISTOGRAM_SCREEN              =0xA8,
 MARIO_KART_CHANNEL_BEHIND_0XAD                         =0xAC,
 MARIO_KART_CHANNEL_WITH_A_SELECTED_GHOST_CHALLENGEWATCH=0xAD,
@@ -453,7 +454,9 @@ public:
 	u32 raceCount;
 	u8 unknown_0x68[0x124 - 0x68];
 	u32 humanPlayerCount;
-	u8 unknown_0x128[0x14c - 0x128];
+	u8 unknown_0x128[0x12c - 0x128];
+    CharacterId characters[4];
+    VehicleId vehicles[4];
 	u32 lastSelectedCourse;
 	u32 lastSelectedStage;
 	u8 unknown_0x154[0x188 - 0x154];
@@ -467,7 +470,9 @@ public:
 	u8 unknown_0x2D4[0x3C4 - 0x2D4];
 	GhostType ghostType;
 	CourseId courseId;
-	u8 unknown_0x3CC[0x4E8 - 0x3CC];
+	u8 unknown_0x3CC[0x4B4 - 0x3CC];
+    u32 willGhostSave; //0x4B4
+    u8 unknown_0x4B8[0x4E8-0x4B8];
 	u8 licenseNum;
 	u8 unknown_0x4e9[0x510 - 0x4E9];
 }; //Total Size 0x510
@@ -478,7 +483,7 @@ public:
     virtual int vtableTemp();
 	//vtable 0x808BB44
 	ControllerInfo controllerInfos[4];
-	u8 unknown_0x80[0x88 - 0x80];
+	u8 unknown_0x44[0x58 - 0x44];
 	u32 isTransitionDone;
 }; //Total size 0x5C
 
@@ -505,5 +510,10 @@ public:
     u32 *field18_0x94; /* 0x14 struct */
     MenuData98 *menudata98;
 }; //Total Size 0x9C
+
+
+extern "C"{
+    void SetupMenuLoad();
+}
 
 extern MenuData *menuData;

@@ -52,7 +52,9 @@ public:
 class PlayerRoulette{
 public:
     ItemHolderPlayer *itemHolderPlayer;
-    u32 unknown_0x4[3];
+    u32 isTheRouletteSpinning;
+    u32 frames; //how many frames have the roulette been spinning for
+    u32 totalSpinDuration;
     float unknown_0x10[2];
     u32 currentItem;
     u32 nextItem;
@@ -66,14 +68,20 @@ public:
 
 class PlayerInventory{
 public:
+    void Update();
     ItemHolderPlayer *itemHolderPlayer;
     ItemId currentItemId;
     u32 currentItemCount;
-    u8 unknown_0xC[0x2C-0xC];
+    u8 unknown_0xC[0x1C-0xC];
+    bool hasGolden;
+    u8 unknown_0x1D[0x22-0x1D];
+    u16 goldenTimer;
+    u8 unknown_0x24[0x2C-0x24];
 }; //Total Size 0x2C
 
 class ItemHolderPlayerSub {
 public:
+    void Update();
     PlayerPointers *playerPointers;
     ItemHolderPlayer *itemHolderPlayer;
     u8 unknown_0x8[4];
@@ -107,6 +115,7 @@ public:
 
 class ItemHolderPlayer {
 public:
+    void Update();
     PlayerPointers *playerPointers;
     PlayerModel *model;
     u8 unknown_0x8[0x18-0x8];

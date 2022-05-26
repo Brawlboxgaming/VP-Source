@@ -3,6 +3,7 @@
 #include <kamek.h>
 
 class PlayerModelBones;
+class MiiHeadsModel;
 
 class PlayerModel : public EGG::Disposer {
 public:
@@ -30,9 +31,34 @@ public:
   u8 unknown_0xE0[0xfa-0xe0];
   u16 currentAnimation;
   u16 lastAnimation;
-  u8 unknown_0xF8[0x104-0xf8];
+  u8 unknown_0xF8[0x100-0xf8];
+  MiiHeadsModel *miiHeads; //0x807c795c
   PlayerModelBones *bones;
   u8 unknown_0x108[0x10c-0x108];
   char* characterName;
   u8 unknown_0x110[0x6e4-0x110];
 };//total size 0x6e4
+
+class ModelDirector{
+public:
+  ModelDirector(); //0x8055b298 vtable 808d2e10
+  virtual ~ModelDirector(); //0x8055b5bc
+  u32 unk_bitfield;
+  u32 unknown_0x8;
+  void *rawData; //MDL0 magic? seems to be wrong
+  UnkType *g3dHolder;
+  UnkType g3dHolderList[2];
+  u32 unknown_0x1c[2];
+  u32 isTransparent;
+  UnkType *modelTransformator;
+  UnkType unknown_0x2c[0x44-0x2c];
+  UnkType objRenderer;
+  u32 unknown_0x4C;
+}; //total size 0x4c
+
+class MiiHeadsModel : public ModelDirector {
+public:
+  MiiHeadsModel(); //807dbe0c 808d2e10
+  virtual ~MiiHeadsModel(); //807d6860
+  u8 unknown_0x4c[0x70-0x4c];
+}; //total size 0x70

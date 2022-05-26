@@ -10,9 +10,11 @@ Melg
 #include <racedata.h>
 #include <raceinfo.h>
 #include <menudata.h>
+#include <nw4r.h>
 
 class LayoutUIControl;
 class Screen;
+class ScreenText;
 class ScreenActionController;
 class PushButton;
 
@@ -67,6 +69,7 @@ public:
 class BMGThing{
 public:
     BMGThing(); //0x805f8b34
+    u32 GetMsgId(s32 id);
     u32 *pointer_0x0;
     u32 *pointer_0x4;
     u32 *pointer_0x8; //points to UTF-16 strings of all bmg messages
@@ -119,8 +122,9 @@ public:
     PositionAndScale positionAndscale[4]; //same structs repeats itself 4 times, but only the last one seems to do anything?
     UnkType *pointer; //0x64 points to the parent class holding all screens 
     ControlGroup controlGroup; 
-    bool isVisible;
-    u32 isVisible2; //setting this to anything but 0 removes the element
+    u32 drawPriority; //setting this to anything but 0 removes the element
+    bool isHidden;
+    u8 unknown_0x81[0x84-0x81];
     bool unknown_0x84;
     u8 unknown_0x85[0x8C-0x85];
     float unknown_0x8C;
@@ -138,24 +142,24 @@ public:
     virtual char* getClassName(); //how the class name was found
     virtual void func_0x30(); //called screen_buttonHolder
     virtual void func_0x38(); //called screen_buttonHolder too
-
+    void SetText(u32 bmgId, ScreenText *text);
+    void SetMsgId(u32 bmgId, ScreenText *text);
     AnimationThing AnimationThing;
     ScreenLayout screenLayout;
     BMGThing bmgThing1;
     BMGThing bmgThing2;
     UnkType *pointer_0x16C;
     u32 unknown_0x170;
+    
 };//Total Size 0x174
 
-class UnkClass {
+class UnkClass : public Timer {
 public:
     UnkClass(); //seems to be inlined everytime
-    virtual void func_vtable(); //0x808A2D44
-    Timer timer;
     u8 unknown_0xC;
     u8 unknown_0xD[0x1C-0xD];
     u32 unknown_0x1C;
-    u8 unknown_0x20[0x38-0x1C];
+    u8 unknown_0x20[0x38-0x20];
 }; //Total Size 0x38
 
 struct UnkArray{
@@ -167,8 +171,8 @@ public:
     UnkClass2(); //805ef240
     ~UnkClass2(); //805ef2fc
     virtual void func_vtable(); //0x808b9a48
-    u8 unknown_0x20[0x3C-0x0]; //has an array of something
-    UnkArray array[5];
+    u8 unknown_0x4[0x3C-0x4]; //has an array of something
+    UnkArray array;
 }; //Total Size 0x144
 
 
@@ -182,7 +186,7 @@ public:
     virtual int func_0x18(); //returns 1 
     virtual void func_0x1C();
     virtual void func_0x20();
-    virtual void AddScreenLayer(ScreenType id); //806025b0
+    virtual void AddScreenLayer(ScreenType id, u32 r5); //806025b0
     virtual void OnInit(); //just a blr
     virtual void clearInstance(); //just a blr
     virtual void OnLoad(); //just a blr   
@@ -214,13 +218,14 @@ public:
 
 class ScreenText {
 public:
-    u32 Unknown_0x0[9];
+    ScreenText();
+    u32 intToPass[9];
     u32 bmgId[9];
     u32 miis[9];
     u8 licenseId[9];
     u8 unknown_0x75[3];
     u32 playerId[9];
-    UnkType *strings[9]; //no idea
+    char *strings[9];
     bool useColoredBorder;
     char unknown_0xC1[3];
 }; //total size 0xC4
@@ -247,7 +252,7 @@ class PushButton : public LayoutUIControl{
 public:
     virtual void unk_vtable(); //0x808b776c
     ScreenElementActionHolder actionHolder;
-    ptmfHolder onSelectHandlerObj;
+    ptmfHolder onSelectHandlerObj; //0x84
     ptmfHolder onDeselectHandlerObj;
     ptmfHolder onclickHandlerObj;
     ptmfHolder *onClickHandler;
@@ -304,11 +309,14 @@ public:
     void SetHandler(ScreenInput id, ptmfHolder *handler, bool enable, bool r7);
 };//total size 0x224
 
-class CtrlMenuBackButton : public PushButton {
-    u32 bmgId;
-    UnkType unknown_0x258;
+class CtrlMenuBackButton : public PushButton{
+public:
+    CtrlMenuBackButton(); //inlined vtable 808d374c
+    virtual ~CtrlMenuBackButton(); //805be7f4
+    u32 bmgId; //0x254
+    u8 unknown_0x258[0x25c-0x258];
     float alpha;
-    char* pane;
+    char *pane;
 }; //total size 0x264
 
 class ModelPosition : public LayoutUIControl {

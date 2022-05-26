@@ -94,6 +94,8 @@ namespace EGG {
 		const INFEntry *findINFForMessageID(int category, int message) const;
 		u32 getEntryFromMID(int index) const;
 	};
+	void *LoadToMainRam(char *path, void *buffer, EGG::Heap *heap, u32 allocDirection, u32 offset, u32 r8, u32 *r9);
 }
 
 #endif
+;

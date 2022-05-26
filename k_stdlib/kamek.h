@@ -5,13 +5,14 @@
  */
 
 #define abs(n) __abs(n)
+#define asm __asm
 
 #ifndef __KAMEK_H
 #define __KAMEK_H
 
-#ifndef __MWERKS__
+/*#ifndef __MWERKS__
 #error "Kamek requires the CodeWarrior compiler!"
-#endif
+#endif*/
 
 #define NULL 0
 
