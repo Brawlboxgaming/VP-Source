@@ -21,11 +21,12 @@ preproc_demo.cpp
 
 # Not relevant
 testing/*
+mkw2/*
 vp/move.bat
 loader/move.bat
-vp/files/*
+projects/vp/files/*
 Kamek.code-workspace
-vp/to-do codes.txt
+projects/vp/to-do codes.txt
 
 # clangd flags
 compile_flags.txt

@@ -1,4 +1,4 @@
-#include "kamekLoader.h"
+#include "kamekLoader.hpp"
 
 struct KBHeader {
 	u32 magic1;

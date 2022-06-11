@@ -1,4 +1,4 @@
-#include "kamekLoader.h"
+#include <loader/kamekLoader.hpp>
 
 void loadIntoMKW();
 
