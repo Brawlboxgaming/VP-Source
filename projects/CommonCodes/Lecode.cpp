@@ -2,6 +2,7 @@
 #include <System/dvd.hpp>
 #include <base/rvl_sdk.h>
 #include <lecode.hpp>
+#include <project.hpp>
 
 #ifdef LECODE
 
@@ -14,7 +15,7 @@ static void notFoundError()
     OSFatal(&fg, &bg, "Error: LE-Code bin not found");
 }
 
-static int loadLECode()
+void loadLECode()
 {
     DVDCommandBlock file;
     LECTHeader header __attribute__((aligned(0x20)));
@@ -55,10 +56,8 @@ static int loadLECode()
 
     // Call post LE-Code hooks
     PostLECodeHook::exec();
-
-    return 0;
 }
 
-kmBranch(0x800074d4, loadLECode);
+static BootHook loadLECodeHook(loadLECode);
 
 #endif

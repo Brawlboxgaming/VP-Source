@@ -58,12 +58,10 @@ bool PatchIsLocalCheck(Player *player){
 }
 kmCall(0x80783770, &PatchIsLocalCheck);
 
-ScreenType TTPauseNextScreen(){
+ScreenType TTPauseNextScreen(PauseScreen *screen){
     MenuType menuId = menuData->curScene->menuId;
-    if (menuId == TIME_TRIAL_GAMEPLAY) return TIME_TRIAL_PAUSE_MENU;
-    else if (menuId == GHOST_RACE_GAMEPLAY_1 || menuId == GHOST_RACE_GAMEPLAY_2) return GHOST_RACE_PAUSE_MENU;
-    else if(menuId >= WATCH_GHOST_FROM_CHANNEL && menuId <= WATCH_GHOST_FROM_MENU) return GHOST_REPLAY_PAUSE_MENU;
-    return SCREEN_NONE;
+    if(menuId >= WATCH_GHOST_FROM_CHANNEL && menuId <= WATCH_GHOST_FROM_MENU) return GHOST_REPLAY_PAUSE_MENU;
+    return screen->GetPauseScreenId();
 }
 kmCall(0x808569e0, &TTPauseNextScreen);
 

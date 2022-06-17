@@ -28,6 +28,7 @@
 extern int *GreenShellSpeed;
 extern int *RedShellSpeed;
 extern int *BlueShellSpeed;
+extern int *WaitForGhostLoadDone;
 extern int *Player_getControllerHolder;
 extern int *RKNetController_ConnectToAnybodyAsync_VsRegionSet;
 extern int *RKNetController_ConnectToAnybodyAsync_BtRegionSet;

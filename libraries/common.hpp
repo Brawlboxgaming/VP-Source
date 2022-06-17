@@ -215,6 +215,54 @@ enum ItemId{
     NONE=0x14,
 };
 
+enum RadioSettings {
+    RADIO_FASTMENUS = 0x0,
+    RADIO_PANEL = 0x1,
+    RADIO_SPEEDUP = 0x2,
+    RADIO_GHOST = 0x3,
+};
+
+enum ScrollerSettings {
+    SCROLLER_BOOT = 0x0,
+    SCROLLER_INFO = 0x1
+};
+
+enum RadioFASTMENUS {
+    RADIO_FASTMENUS_DISABLED = 0x0,
+    RADIO_FASTMENUS_ENABLED = 0x1,
+};
+
+enum RadioPANEL {
+    RADIO_PANEL_DISABLED = 0x0,
+    RADIO_PANEL_LIGHT = 0x1,
+    RADIO_PANEL_FULL = 0x2,
+    RADIO_PANEL_OFFROAD = 0x3
+};
+
+enum RadioSPEEDUP {
+    RADIO_SPEEDUP_DISABLED = 0x0,
+    RADIO_SPEEDUP_ENABLED = 0x1
+};
+
+enum RadioGHOST {
+    RADIO_GHOST_DISABLED = 0x0,
+    RADIO_GHOST_ENABLED = 0x1
+};
+
+enum ScrollerBOOT {
+    SCROLLER_BOOT_DEFAULT = 0x0,
+    SCROLLER_BOOT_TTCUP = 0x1,
+    SCROLLER_BOOT_1PMENU = 0x2,
+    SCROLLER_BOOT_ONLINE = 0x3
+};
+
+enum ScrollerINFO {
+    SCROLLER_INFO_NONE = 0x0,
+    SCROLLER_INFO_CHECKPOINT = 0x1,
+    SCROLLER_INFO_ITPT = 0x2,
+    SCROLLER_INFO_AREA = 0x3
+};
+
 struct ptmf{
     int this_delta;
     int vtableOffset;

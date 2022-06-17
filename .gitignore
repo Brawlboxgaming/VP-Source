@@ -27,6 +27,7 @@ loader/move.bat
 projects/vp/files/*
 Kamek.code-workspace
 projects/vp/to-do codes.txt
+projects/vp/distribution.txt
 
 # clangd flags
 compile_flags.txt

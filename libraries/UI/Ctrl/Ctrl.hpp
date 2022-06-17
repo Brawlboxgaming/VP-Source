@@ -3,7 +3,7 @@
 #include <nw4r/lyt/lyt.hpp>
 
 class Screen;
-class ScreenLayout;
+class MainLayout;
 class LayoutUIControl;
 
 struct PositionAndScale{
@@ -46,7 +46,7 @@ public:
     PaneGroup *paneGroups; //array of pane groups
     u32 animationCount; //Unsure
     nw4r::lyt::Pane *rootPane;
-    ScreenLayout *layout;
+    MainLayout *layout;
     
 }; //Total Size 0x10
 
@@ -68,10 +68,11 @@ public:
     UnkType *pointer1_0x24;    //0x24
 }; //Total size 0x28
 
-class ScreenLayout : ParentScreenLayout {
+class MainLayout : ParentScreenLayout {
 public:
-    ScreenLayout(); //vtable 808b94c4
-    virtual ~ScreenLayout(); 
+    MainLayout(); //vtable 808b94c4
+    virtual ~MainLayout();
+    nw4r::lyt::Pane *GetPaneByName(char *paneName);
     char string[0x44]; //from 0x28 to 0x6
     u8 unknown_0x6C[0x9C-0x6C];
 }; //Total Size 0x9C
@@ -80,6 +81,10 @@ class ControlGroup {
 public:
     ControlGroup(); //0x805C23E4
     ~ControlGroup(); //0x805c2400
+    void Update(); //0x805c28d8
+    void InitControls(); //0x805c2868
+    void Init(Screen *parentScreen, u32 controlCount); //0x805c2620
+    void SetControl(u8 index, LayoutUIControl *control, bool r6); //0x805c27dc
     LayoutUIControl **controlArray; //pointer to the array of controls
     LayoutUIControl **controlArray2; //pointer to the array of controls, of length controlCount, idk what is the difference look the same in game
     LayoutUIControl *parentControl;
@@ -131,18 +136,23 @@ public:
 class LayoutUIControl : public UIControl {
 public:
     LayoutUIControl(); //0x8063d798
-    virtual ~LayoutUIControl(); //vtable 808befb4
-    virtual void Init();
-    virtual void Update();
-    virtual void Draw();
-    virtual int GetStaticInstanceAddr(); //returns 809c1e84
-    virtual char* getClassName(); //how the class name was found
-    virtual void func_0x30(); //called screen_buttonHolder
+    virtual ~LayoutUIControl(); //vtable 808befb4 0x8
+    virtual void Init(); //0xc
+    virtual void Update(); //0x10
+    virtual void Draw(); //0x14
+    //InitSelf 0x18
+    //OnUpdate 0x1c
+    //SetPosition 0x20
+    //func_805bd2dc 0x24
+    virtual int GetStaticInstanceAddr(); //returns 809c1e84 //0x28
+    virtual char* getClassName(); //how the class name was found 0x2c
+    virtual void func_0x30(); //called screen_buttonHolder 0x30
+    //func_805bd2d8 0x34
     virtual void func_0x38(); //called screen_buttonHolder too
     void SetText(u32 bmgId, ScreenText *text);
     void SetMsgId(u32 bmgId, ScreenText *text);
-    UIAnimator AnimationThing;
-    ScreenLayout screenLayout;
+    UIAnimator animator;
+    MainLayout layout;
     BMGThing bmgThing1;
     BMGThing bmgThing2;
     UnkType *pointer_0x16C;
@@ -162,19 +172,29 @@ public:
 class CtrlRaceBase : public LayoutUIControl { //one element is one CtrlRaceBase
 public:
     //CtrlRaceBase(); //literally cannot find it
-    ~CtrlRaceBase(); //vtable 808d3a98
+    virtual ~CtrlRaceBase(); //vtable 808d3a98
+    //init 0xc
+    //update 0x10
+    //draw 0x14
     virtual void InitSelf(); //called setup pause position on sanbo
+    //OnUpdate 0x1c
+    //SetPosition 0x20
+    //func_805bd2dc 0x24
     virtual int GetStaticInstanceAddr(); //returns 809c4010
-    virtual char* getClassName();
-    virtual void UpdatePausePosition(); //called updatePausePosition
+    virtual char* getClassName(); //0x2c
+    //func_0x30 
+    //func 0x34
+    //func 0x38
+    virtual void UpdatePausePosition(); //0x3c
     virtual void func_0x40(); 
-    virtual UnkType* func_0x44();
-    virtual bool isPaused(); //returns MenuData -> curScene -> isPaused
-    virtual bool hasRaceStarted(); //checks raceinfo->timer 
+    virtual nw4r::lyt::Pane* GetPane(); //children use it if they have a pane
+    virtual bool isPaused(); //returns MenuData -> curScene -> isPaused //0x48
+    virtual bool hasRaceStarted(); //checks raceinfo->timer //0x4c
     void HudSlotColorEnabled(char *pane, bool enable); //pane name from the brlyt
     int getControlCount();
     u8 getPlayerId();
-    u8 unknown_0x174[0x190-0x174]; //couldn't find the ctor so based on 807f7c18 (ctor for timer element)
+    u8 unknown_0x174[0x18C-0x174]; //couldn't find the ctor so based on 807f7c18 (ctor for timer element)
+    nw4r::lyt::Pane *pane; //seems to be null pane for most children
     u8 hudSlotId;
     u8 unknown_0x191[0x198-0x191];
 };//Total Size 0x198
@@ -184,6 +204,27 @@ class CtrlRaceCount : public LayoutUIControl {
     virtual ~CtrlRaceCount(); //807ee40c vtable 0x808d3c18
     u8 unknown_0x174[0x198-0x174];
 };
+
+class CtrlRaceWifiStartMessage : public CtrlRaceBase {
+public:
+    //no ctor
+    virtual ~CtrlRaceWifiStartMessage(); //vtable 808d4110 807f91f0
+    virtual void OnUpdate();
+    virtual int GetStaticInstanceAddr();
+    virtual char *getClassName();
+    virtual void func_0x40(); 
+    virtual nw4r::lyt::Pane* GetPane();
+    virtual bool isPaused(); //returns MenuData -> curScene -> isPaused //0x48
+    virtual bool hasRaceStarted(); //checks raceinfo->timer //0x4c
+
+
+    void Load(u32 variant, u32 hudSlotId); //807f8994 variant = localPlayerCount except 3 where it's 4 gamemodeType determines the displayed message
+    nw4r::lyt::Pane *textBox_00;
+
+};
+//80858728
+// 808d4110 custom func_0x40
+//update pause position calls 807f8bd8 to make the state disappear
 
 class CtrlMenuPageTitleText : public LayoutUIControl{
 public:

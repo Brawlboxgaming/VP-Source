@@ -4,7 +4,7 @@
 #include <Misc/Mii.hpp>
 #include <UI/Ctrl/Ctrl.hpp>
 
-struct UnkArray{
+struct UnkArray {
     u8 unknown_0x0[0x104-0x0]; //each element is 0x34 bytes long
 }; //Total Size 0x104
 
@@ -35,6 +35,7 @@ class PauseScreen : public Screen{
 public:
     PauseScreen(); //80858ca4 vtable 0x808da928
     virtual ~PauseScreen(); //80624b38
+    virtual ScreenType GetPauseScreenId();
     u32 unknown_0x44;
     PushButton **buttons; //number of buttons depends on the specific screen
     u8 unknown_0x4C[0x54-0x4C];

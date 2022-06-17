@@ -1,9 +1,6 @@
 #include <project.hpp>
 #include <settings.hpp>
 
-#define CHANGECOMBO
-#define LECODE
-
 s16 invincibilityTimer[12];
 int fastFallTimer = 0x0;
 
@@ -178,12 +175,6 @@ kmCall(0x805721a4, &InvincibilityFrames);
 kmCall(0x805727b4, &InvincibilityFrames);
 kmBranch(0x80590d84, &InvincibilityFrames);
 
-void temp(){
-    OSReport("Unknown_0x260: %x", playerHolder->players[raceData->main.scenarios[0].settings.hudPlayerIds[0]]->playerPointers->playerSub10->unknown_0x260);
-}
-
-//static RaceFrameHook tempHook(temp);
-
 UnkType AllVehiclesInBattle(){
     return 0;
 }
@@ -230,25 +221,19 @@ void BrakeDrifting(){
         u8 hudPlayerId = raceData->main.scenarios[0].settings.hudPlayerIds[i];
         u32 controllerInfo = menuData->sub.controllerInfos[0].controllerSlotAndTypeActive;
         ControllerType controllerType = ControllerType(controllerInfo & 0xFF);
-        RealControllerHolder *controllerHolder = &inputData->realControllerHolders[hudPlayerId];
+        RealControllerHolder *controllerHolder = &inputData->realControllerHolders[i];
         if(controllerType == CLASSIC || controllerType == GCN){
-            if(CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_A) &&
-            CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_B) &&
-            CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_R)){
+            if(CheckButtonCombination(controllerHolder, controllerType, false, (UniversalButtons)(BUTTON_A | BUTTON_B | BUTTON_R))){
                 brake = true;
             }
         }
         else if(controllerType == NUNCHUCK){
-            if(CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_A) &&
-            CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_B) &&
-            CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_DPAD_DOWN)){
+            if(CheckButtonCombination(controllerHolder, controllerType, false, (UniversalButtons)(BUTTON_A | BUTTON_B | BUTTON_DPAD_DOWN))){
                 brake = true;
             }
         }
         else if(controllerType == WHEEL){
-            if(CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_2) &&
-            CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_1) &&
-            CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_B)){
+            if(CheckButtonCombination(controllerHolder, controllerType, false, (UniversalButtons)(BUTTON_2 | BUTTON_1 | BUTTON_B))){
                 brake = true;
             }
         }
@@ -468,6 +453,15 @@ asm void IgnoreInvisibleWallsWrapper(){
 
 kmCall(0x805b68dc, &IgnoreInvisibleWallsWrapper);
 
+// Remove staff ghost loading
+kmWrite32(0x806211dc, 0x4e800020);
+
 // 8064ba38 is address for WW Buttons
 
 //// Transmission Select
+
+void temp(){
+    OSReport("Brakedrifting Location: %x", &BrakeDrifting);
+}
+
+static RaceLoadHook tempHook(temp);

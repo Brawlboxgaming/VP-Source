@@ -3,10 +3,6 @@
 
 #ifdef CUSTOMSETTINGS
 
-extern const u8 buttonsPerRow[6];
-extern const u8 optionsPerScroller[6];
-
-
 void AddSettingsScreen(Scene *scene, ScreenType id){
     scene->CreateScreen(id);
     scene->CreateScreen(VS_SETTINGS);
@@ -41,9 +37,7 @@ void ExpandedOptionsScreen::ExpandedHandleClick(PushButton *pushButton, u32 r5){
     }
 }
 
-
-
-CustomSettingsPanel::CustomSettingsPanel(u32 radioButtonsCount, u32 scrollerButtonsCount){
+CustomSettingsPanel::CustomSettingsPanel(u32 radioButtonsCount, u32 scrollerButtonsCount, u8 buttonsPerRow[6], u8 optionsPerScroller[6]){
     externObjectsCount = 1;
     layoutCount = radioButtonsCount + scrollerButtonsCount;
     hasBackButton = false;
@@ -78,14 +72,16 @@ CustomSettingsPanel::CustomSettingsPanel(u32 radioButtonsCount, u32 scrollerButt
     localPlayerCount = 1;
     radioCount = radioButtonsCount;
     scrollersCount = scrollerButtonsCount;
+    rowButtonCount[6];
+    memcpy(rowButtonCount, buttonsPerRow, sizeof(rowButtonCount));
+    rowOptionCount[6];
+    memcpy(rowOptionCount, optionsPerScroller, sizeof(rowOptionCount));
 };
-
 
 CustomSettingsPanel::~CustomSettingsPanel(){
     delete[] radioButtonControls;
     delete[] upDownControls;
     delete[] textUpDownwID;
-
 }
 
 void CustomSettingsPanel::OnInit(){
@@ -154,7 +150,7 @@ void CustomSettingsPanel::InitLayout(u32 id){
             variant = "RadioRow3";
             optionVariants = optionVariantsRow3;
         }
-        radioButtonControl->InitLayout(buttonsPerRow[id], params->settings.radioSetting[id], "control", "SettingsRadioBase", variant, "SettingsRadioOption", optionVariants, 1, 0, 0);
+        radioButtonControl->InitLayout(rowButtonCount[id], params->settings.radioSetting[id], "control", "SettingsRadioBase", variant, "SettingsRadioOption", optionVariants, 1, 0, 0);
         radioButtonControl->SetOnChangeHandler(this->onRadioButtonChangeHandler);
         radioButtonControl->SetOnSelectHandler(this->onRadioButtonSelectHandler);
         radioButtonControl->id = id;
@@ -171,7 +167,7 @@ void CustomSettingsPanel::InitLayout(u32 id){
         char *variant = "UpDown0";
         if (id == 1) variant = "UpDown1";
 
-        upDownControl->InitLayout(optionsPerScroller[id], params->settings.scrollSetting[id], "control", "SettingsUpDownBase", variant, "SettingsUpDownButtonR", "RightButton",
+        upDownControl->InitLayout(rowOptionCount[id], params->settings.scrollSetting[id], "control", "SettingsUpDownBase", variant, "SettingsUpDownButtonR", "RightButton",
         "SettingsUpDownButtonL", "LeftButton", (UpDownDisplayedText*) &this->textUpDownwID[id], 1, 0, false, true, true);
         //edit the brctr variants if there are multiple scrollers
 

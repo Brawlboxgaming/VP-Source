@@ -332,6 +332,17 @@ hasRaceStarted__12CtrlRaceBaseFv = 0x807ec3c4
 getPlayerId__12CtrlRaceBaseFv = 0x807ec7f8
 HudSlotColorEnabled__12CtrlRaceBaseFPcb = 0x807ebf20
 GetStaticInstanceAddr__12CtrlRaceBaseFv = 0x809c4010
+__vt__24CtrlRaceWifiStartMessage = 0x808d4110
+__dt__24CtrlRaceWifiStartMessageFv = 0x807F91F0
+OnUpdate__24CtrlRaceWifiStartMessageFv = 0x807f8c34
+GetStaticInstanceAddr__24CtrlRaceWifiStartMessageFv = 0x807f924c
+getClassName__24CtrlRaceWifiStartMessageFv = 0x807f8988
+func_0x40__24CtrlRaceWifiStartMessageFv = 0x807f8be8
+GetPane__24CtrlRaceWifiStartMessageFv = 0x807f91e8
+GetPane__12CtrlRaceBaseFv = 0x807ebe40
+isPaused__24CtrlRaceWifiStartMessageFv = 0x807f8bd8
+hasRaceStarted__24CtrlRaceWifiStartMessageFv = 0x807F8BA4
+GetPaneByName__10MainLayoutFPc = 0x805e8368
 
 #Screen
 __ct__6ScreenFv = 0x8060197c
@@ -485,6 +496,8 @@ __mi__5TimerFP5Timer = 0x807ee860
 GreenShellSpeed = 0x808e5c8c
 RedShellSpeed = 0x808e5c94
 BlueShellSpeed = 0x808e5ca4
+WaitForGhostLoadDone = 0x806211dc
+LeCodeID = 0x80553e08
 
 
 #Static Instances

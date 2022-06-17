@@ -28,7 +28,7 @@ public:
 
 class CustomSettingsPanel : public InteractableScreen {
 public:
-    CustomSettingsPanel(u32 radioCount, u32 scrollersCount);
+    CustomSettingsPanel(u32 radioCount, u32 scrollersCount, u8 buttonsPerRow[6], u8 optionsPerScroller[6]);
     virtual ~CustomSettingsPanel();
     virtual void OnInit(); //To be defined
     virtual void ClearInstance(); //80853a8c
@@ -94,4 +94,7 @@ public:
     TextUpDownValueControlwID *textUpDownwID; //0x1984
     UpDownDisplayedTextScrollHandler *textOnScrollHandler; //when you scroll
     u32 scrollersCount;
+
+    u8 rowButtonCount[6];
+    u8 rowOptionCount[6];
 };

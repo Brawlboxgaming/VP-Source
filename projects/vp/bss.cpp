@@ -12,14 +12,14 @@ bool BlueShellSwapping(bool hasItem){
                 ItemId currentItem = itemHolder->players[hudPlayerId].inventory.currentItemId;
                 if (currentItem == BLUE_SHELL){
                     bool switchItem = false;
-                    if(CheckButtonPressed(controllerHolder, controllerType, true, BUTTON_MINUS)){
+                    if(CheckButtonPressed(controllerHolder, controllerType, false, BUTTON_MINUS)){
                         switchItem = true;
                     }
                     else if ((menuData->sub.controllerInfos[0].controllerSlotAndTypeActive & 0xFF) == GCN){
-                        if (CheckButtonPressed(controllerHolder, controllerType, true, C_STICK_LEFT_EIGHT) || 
-                            CheckButtonPressed(controllerHolder, controllerType, true, C_STICK_RIGHT_EIGHT) ||
-                            CheckButtonPressed(controllerHolder, controllerType, true, C_STICK_UP_EIGHT) ||
-                            CheckButtonPressed(controllerHolder, controllerType, true, C_STICK_DOWN_EIGHT)){
+                        if (CheckButtonPressed(controllerHolder, controllerType, false, C_STICK_LEFT_EIGHT) || 
+                            CheckButtonPressed(controllerHolder, controllerType, false, C_STICK_RIGHT_EIGHT) ||
+                            CheckButtonPressed(controllerHolder, controllerType, false, C_STICK_UP_EIGHT) ||
+                            CheckButtonPressed(controllerHolder, controllerType, false, C_STICK_DOWN_EIGHT)){
                             switchItem = true;
                         }
                     }
